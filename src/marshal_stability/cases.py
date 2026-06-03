@@ -154,6 +154,13 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             "bytearrays are serializable",
         ),
         MarshalCase(
+            "memoryview",
+            memoryview(b"abc"),
+            ("EP", "white-box"),
+            "buffer protocol inputs serialize through the bytes path",
+            notes="CPython loads this value back as bytes.",
+        ),
+        MarshalCase(
             "empty_tuple",
             (),
             ("EP", "BVA"),
@@ -269,13 +276,6 @@ def unsupported_cases() -> list[MarshalCase]:
             object(),
             ("EP", "negative"),
             "arbitrary object instances are unsupported",
-            expect_roundtrip=False,
-        ),
-        MarshalCase(
-            "memoryview",
-            memoryview(b"abc"),
-            ("EP", "negative"),
-            "memoryview objects are unsupported",
             expect_roundtrip=False,
         ),
     ]

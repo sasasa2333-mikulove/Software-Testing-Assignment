@@ -27,6 +27,9 @@ def marshal_equal(left: Any, right: Any) -> bool:
     if isinstance(left, bytearray) and isinstance(right, bytearray):
         return bytes(left) == bytes(right)
 
+    if isinstance(left, (bytearray, memoryview)) and isinstance(right, bytes):
+        return bytes(left) == right
+
     if isinstance(left, tuple) and isinstance(right, tuple):
         return _sequence_equal(left, right)
 
