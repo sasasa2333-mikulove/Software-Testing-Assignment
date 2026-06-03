@@ -8,7 +8,6 @@ import pytest
 from marshal_stability.cases import sample_function
 from marshal_stability.normalization import marshal_equal
 
-
 DOCUMENTED_VALUES = [
     None,
     Ellipsis,
