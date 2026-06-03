@@ -2,125 +2,112 @@
   title: "Testing the Stability and Correctness of Python's marshal Module",
   author: "HerveyB3B4",
 )
-#set page(
-  paper: "a4",
-  margin: (x: 1.55cm, y: 1.45cm),
-  numbering: "1",
-)
-#set text(font: "Liberation Serif", size: 9.2pt, lang: "en")
-#set par(justify: true, leading: 0.45em)
+#set page(paper: "a4", margin: (x: 1.45cm, y: 1.35cm), numbering: "1")
+#set text(font: "Liberation Serif", size: 8.7pt, lang: "en")
+#set par(justify: true, leading: 0.38em)
 #set heading(numbering: "1.1")
-#show heading.where(level: 1): set text(size: 12pt)
-#show heading.where(level: 2): set text(size: 10.2pt)
-#show raw: set text(size: 8.2pt)
+#show heading.where(level: 1): set text(size: 11.2pt)
+#show heading.where(level: 2): set text(size: 9.6pt)
+#show raw: set text(size: 7.8pt)
 #show link: set text(fill: blue)
 
 #align(center)[
-  #text(15pt, strong[Testing the Stability and Correctness of Python's marshal Module])
+  #text(14pt, strong[Testing the Stability and Correctness of Python's marshal Module])
 
-  #v(0.25em)
+  #v(0.2em)
   HerveyB3B4
 
-  #v(0.15em)
   Repository: #link("https://github.com/<your-username>/softwaretestingassignment")
 ]
 
-= Objective
+= Objective and Model
 
-The assignment asks whether the same input always creates the same serialized output in Python's `marshal` module. I define sameness exactly as byte identity: for a value `x`, repeated calls to `marshal.dumps(x)` must produce identical byte streams, and the SHA-256 digest of those bytes must therefore match. Logical equivalence alone is not accepted as stability evidence.
+The question is whether the same input always creates the same serialized output in Python's `marshal` module. I use byte identity as the oracle: repeated `marshal.dumps(x)` calls must produce identical byte streams and therefore identical SHA-256 digests. The Python documentation says `marshal` is intended for internal Python object serialization and `.pyc` files. It is designed to be architecture-independent for one Python version, but not stable across Python versions. Cross-version differences are therefore findings, not automatic failures.
 
-The official documentation says that `marshal` serializes Python internal object types and is mainly used for `.pyc` files. It is designed to be machine independent for one Python version, but it is deliberately not a stable cross-version format. The suite therefore separates strict pass/fail requirements from observation-only experiments: same interpreter checks must pass; cross-version and cross-platform comparisons are collected and reported without assuming that all digests must match.
+"Complete black-box testing" in this report means complete coverage of the documented API/type model used for the assignment: `dump`, `dumps`, `load`, `loads`, supported documented types, unsupported objects, invalid bytes, `version`, `allow_code`, recursive containers, and file API behavior. It does not mean infinite input exhaustion. White-box testing targets CPython `v3.13.13` `Python/marshal.c` built with GCC/gcov. It reports reachable statement/branch coverage and a def-use obligation matrix.
 
-= Test Suite
-
-The project is a `uv` Python package with a `src/` layout. The command `marshal-stability` collects JSON digest records for each curated case. The main automated checks are:
+= Test Suite and Techniques
 
 #table(
-  columns: (24%, 38%, 38%),
-  inset: 4pt,
-  stroke: 0.4pt,
-  [*Test group*], [*Purpose*], [*Oracle*],
-  [`test_correctness.py`], [Supported and unsupported examples], [Supported values roundtrip and repeat bytes; unsupported values raise `ValueError`.],
-  [`test_stability.py`], [Cross-process digest checks under different `PYTHONHASHSEED` values], [Ordered values keep identical digests; unordered string sets are explicitly sampled as risk cases.],
-  [`test_fuzzing.py`], [Generation-based fuzzing of marshal-supported values], [For generated values, `loads(dumps(x))` is normalized-equal and repeated dumps match.],
-  [`test_collector_cli.py`], [Experiment artifact generation], [CLI emits JSON records with case id, digest, platform, Python version, and strategy metadata.],
-  [`hardware/` + `scripts/`], [Supplemental ARM Linux and MicroPython experiments], [ARM Linux runs the CPython suite over SSH; MicroPython runs a small UART subset and emits JSON lines.],
+  columns: (22%, 34%, 44%),
+  inset: 3pt,
+  stroke: 0.35pt,
+  [*Technique*], [*Where used*], [*Reason*],
+  [Equivalence partitioning], [Documented scalar, binary, container, code-object, recursive, and unsupported classes], [The marshal behavior is type-directed, so partition representatives give high signal.],
+  [Boundary value analysis], [Integer size transitions, empty/large collections, `-0.0`, subnormal, `Inf`, `NaN`], [Known fault locations are near encoding and representation boundaries.],
+  [Fuzzing], [Hypothesis recursive values with bounded size], [Finds nested combinations not covered by the hand-written catalog.],
+  [Stability experiments], [`PYTHONHASHSEED`, Docker versions, OS matrix, digest artifacts], [Checks byte identity across processes, versions, and platforms.],
+  [White-box testing], [Instrumented CPython `marshal.c`, CPython `test_marshal`, project smoke, def-use matrix], [Measures actual C statement/branch execution and maps source-level data flow obligations.],
 )
 
-The deterministic catalog covers singletons, booleans, integers, floats, complex numbers, strings, bytes, bytearray, memoryview, tuples, lists, dictionaries, sets, frozensets, recursive structures, and code objects. The negative catalog covers function objects and arbitrary instances.
-
-= Applied Test Design Techniques
-
-== Equivalence Partitioning
-
-Equivalence partitioning was the primary black-box technique because the input domain is too large for exhaustive testing. The partitions are based on the documented marshal-supported families: scalar values, binary/text values, mutable containers, immutable containers, unordered containers, recursive containers, code objects, and unsupported objects. One or more representative values were selected from each partition. For example, `none`, `unicode_str`, `nested_dict`, `recursive_list`, `code_object`, and `plain_object` each represent a different expected behavior class.
-
-This technique was useful because most marshal behavior is type-directed. A representative list and a representative tuple exercise different serialization tags even when they contain similar payloads. Negative partitions are also important because a correct serializer must reject unsupported objects instead of silently producing bytes with unclear meaning.
-
-== Boundary Value Analysis
-
-Boundary value analysis was used where marshal encoding has natural size or representation boundaries. The integer cases include `0`, `-1`, `2**31 - 1`, `2**31`, and a large arbitrary-precision integer. These values target the transition between compact integer paths and long-integer paths. Collection boundaries include empty, singleton-like, nested, and opt-in large containers. Floating-point boundaries include `-0.0`, a subnormal value, infinity, NaN, and complex values built from special floats.
-
-BVA was not used for every type. For example, there is no meaningful numeric boundary for `None` or `Ellipsis`; testing many copies of those values would not increase fault-detection power.
-
-== Fuzzing
-
-I used Hypothesis for generation-based fuzzing. The generator creates bounded recursive values from marshal-supported scalars, lists, tuples, dictionaries, sets, and frozensets. The bounds keep the test suitable for CI and avoid memory-heavy examples. The fuzzing oracle checks two properties: roundtrip preservation under a normalization function, and same-process byte repeatability.
-
-Fuzzing is appropriate here because nested combinations can expose bugs that a hand-written catalog may miss. It is still bounded: recursive cycles and code objects are handled by explicit tests instead of Hypothesis because arbitrary generation of those values is difficult and likely to obscure failures.
-
-== White-box Guidance
-
-CPython's `Python/marshal.c` was used to choose source-guided cases: integer size transitions, reference tracking for recursive containers, buffer-like binary input, code objects, and marshal version behavior. I did not attempt full all-definitions/all-uses coverage for the C implementation because that would require building and instrumenting CPython itself. For this assignment, source-guided branch family coverage is a better cost/benefit tradeoff.
+The deterministic catalog covers singletons, booleans, integers, floats, complex numbers, strings, bytes, bytearray, memoryview, tuple/list/dict/set/frozenset, recursive containers, and code objects. Additional black-box tests cover `dump/dumps/load/loads`, trailing bytes, file API, invalid tags, truncation, non-bytes input, `version`, and `allow_code=False`. `slice` is tested only when Python is 3.14+ and marshal format version is at least 5.
 
 = Traceability Matrix
 
 #table(
-  columns: (22%, 27%, 31%, 20%),
-  inset: 3.5pt,
-  stroke: 0.35pt,
-  [*Requirement / risk*], [*Technique*], [*Representative cases*], [*Tests*],
-  [Supported primitives are stable], [EP], [`none`, `bool_true`, `unicode_str`, `empty_bytes`], [`test_correctness`, `test_fuzzing`],
-  [Integer encoding boundaries], [BVA + white-box], [`int_32bit_edge`, `int_32bit_overflow`, `int_large`], [`test_correctness`],
-  [Float special values], [BVA], [`float_negative_zero`, `float_subnormal`, `float_inf`, `float_nan`], [`test_correctness`, `test_fuzzing`],
-  [Nested and empty containers], [EP + BVA], [`empty_list`, `nested_tuple`, `nested_dict`], [`test_correctness`, `test_fuzzing`],
-  [Recursive/cyclic structures], [White-box], [`recursive_list`, `recursive_dict`], [`test_correctness`],
-  [Unordered container stability], [EP + stability experiment], [`set_of_strings`, `frozenset_of_strings`], [`test_stability`],
-  [Unsupported inputs fail safely], [Negative EP], [`function_object`, `plain_object`], [`test_correctness`],
-  [Cross-process reproducibility], [Stability experiment], [all catalog cases under different hash seeds], [`test_stability`, CLI digests],
-  [Cross-version/platform evidence], [Experiment matrix], [catalog digests on Python 3.10-3.14 and OS matrix], [GitHub Actions, Docker],
-  [ARM hardware evidence], [Supplemental platform testing], [ARM Linux CPython, MicroPython subset], [`arm_ssh_runner.py`, `micropython_uart_runner.py`],
+  columns: (24%, 23%, 30%, 23%),
+  inset: 2.8pt,
+  stroke: 0.3pt,
+  [*Requirement / risk*], [*Technique*], [*Representative coverage*], [*Tests / artifacts*],
+  [Documented API surface], [Black-box EP], [`dump`, `dumps`, `load`, `loads`, file objects], [`test_api_surface.py`],
+  [Supported documented types], [Black-box EP], [numeric, text, binary, containers, code, recursion], [`test_documented_types.py`, `cases.py`],
+  [Encoding boundaries], [BVA], [`2**31-1`, `2**31`, large int, empty/large collections], [`test_correctness.py`],
+  [Float special values], [BVA], [`-0.0`, subnormal, `Inf`, `NaN`, complex], [`test_documented_types.py`, fuzzing],
+  [Invalid input handling], [Negative EP], [invalid tag, truncated bytes, non-bytes, nested unsupported], [`test_invalid_inputs.py`],
+  [Format/version behavior], [Black-box + docs], [`version`, too-high version, `allow_code`], [`test_format_versions.py`],
+  [Repeatability], [Stability], [same process and different hash seeds], [`test_stability.py`, digest CLI],
+  [C statement/branch coverage], [White-box], [`Python/marshal.c` gcov], [`marshal_coverage.json`],
+  [C def-use obligations], [White-box data flow], [10 marshal data-flow obligations], [`marshal_def_use.csv`],
+  [Platform evidence], [Experiment matrix], [Linux/macOS/Windows, Docker amd64/arm64, hardware placeholders], [CI, Docker, `RUNNING.md`],
 )
 
 = Findings
 
-On the local CPython 3.13.13 Linux run, all same-interpreter correctness and stability tests passed: 76 pytest tests passed. Repeated `marshal.dumps()` calls produced identical bytes for the curated supported values, including recursive lists and dictionaries.
+Local CPython 3.13.13 Linux tests passed with `131 passed, 2 skipped`; the two skips are Python 3.14-only `slice` checks. Docker Linux `amd64` passed on Python 3.10, 3.11, 3.12, 3.13, and 3.14 with 78 tests in the earlier suite; after black-box expansion the same Docker commands should be rerun and recorded. Docker/QEMU `arm64` CPython 3.13 previously passed with `78 passed in 135.05s`; rerun after the expanded test suite is the next required result.
 
-No hash-seed difference was observed for the sampled unordered string set and frozenset cases under `PYTHONHASHSEED=1` and `PYTHONHASHSEED=2`. The suite still keeps these cases because unordered containers remain a plausible stability risk and should be sampled across interpreters and platforms.
+The CPython white-box run built CPython `v3.13.13` with GCC/gcov and ran CPython's own `test_marshal`: 66 tests ran, 7 memory-heavy tests skipped, result successful. The project smoke run on the instrumented interpreter collected 33 marshal records with zero errors. The gcov summary for `Python/marshal.c` reported 831/973 statements covered (85.41%) and 726/794 branches covered (91.44%). The def-use matrix records 10/10 selected marshal data-flow obligations as covered. This is strong source-level evidence, but not 100% statement/branch coverage.
 
-One useful finding came from test development: `memoryview(b"abc")` is accepted by CPython 3.13's `marshal.dumps()` and loads back as `bytes`. It was initially treated as unsupported, but the oracle was corrected after the test exposed the actual behavior. This is now represented as a supported buffer-protocol case.
+No hash-seed difference was observed for sampled unordered string set/frozenset cases under `PYTHONHASHSEED=1` and `2`. A useful behavioral finding from test development is that `memoryview(b"abc")` is accepted by CPython 3.13 and loads back as `bytes`.
 
-Cross-version digest differences are expected and are not treated as bugs. The documentation explicitly says the marshal format is not stable across Python versions. The CI and Docker matrix collect these differences as evidence rather than failing the build for them.
+= Platform Result Log
 
-= Reproducibility and Automation
+#table(
+  columns: (24%, 25%, 22%, 29%),
+  inset: 2.6pt,
+  stroke: 0.3pt,
+  [*Platform*], [*Runtime*], [*Command / program*], [*Result*],
+  [Local Linux x86_64], [CPython 3.13.13], [`uv run pytest -q`], [`131 passed, 2 skipped`],
+  [Docker Linux amd64], [CPython 3.10-3.14], [`docker compose run py310..py314`], [Previously all passed; rerun after expansion: pending],
+  [Docker Linux arm64/QEMU], [CPython 3.13], [`docker run --platform linux/arm64 ...`], [Previously passed; rerun after expansion: pending],
+  [GitHub Actions], [Linux/macOS/Windows 3.13], [CI artifact digest collection], [Fill after public push: pending],
+  [ARM Linux board], [CPython + uv], [`scripts/arm_ssh_runner.py`], [Board/Python/result: pending],
+  [MicroPython MCU], [MicroPython subset], [`scripts/micropython_uart_runner.py`], [Board/version/result: pending],
+  [Optional VM], [Alpine/FreeBSD/32-bit/etc.], [`uv run pytest`, digest CLI], [Platform/result: pending],
+)
 
-The project uses `uv sync --locked --dev` to recreate the environment from `uv.lock`. The main commands are:
+= Reproducibility
+
+Main commands:
 
 ```text
+uv sync --locked --dev
 uv run ruff format --check .
 uv run ruff check .
 uv run pytest -q
 uv run marshal-stability --output results/local.json
 ```
 
-GitHub Actions runs formatting, linting, pytest, and digest collection on Linux, macOS, and Windows. Docker runs the suite against official Python images for versions 3.10 through 3.14, with `linux/amd64` and `linux/arm64` targets through buildx/QEMU where available. Physical ARM tests are intentionally supplemental: ARM Linux can run the full CPython suite over SSH, while MicroPython boards run a smaller UART script because MicroPython's supported marshal subset and memory budget differ from CPython.
+White-box commands:
+
+```text
+uv run python scripts/fetch_cpython.py --tag v3.13.13
+bash scripts/build_cpython_coverage.sh
+bash scripts/run_marshal_whitebox.sh
+uv run python scripts/summarize_whitebox_coverage.py
+```
+
+`RUNNING.md` gives platform-specific commands for Docker, GitHub Actions, ARM Linux, MicroPython UART, and optional VMs.
 
 = Limitations
 
-The suite cannot prove universal determinism. It samples important equivalence classes, boundaries, generated values, operating systems, versions, and hardware targets, but exhaustive testing is infeasible. Hypothesis fuzzing is bounded, so it may miss very deep structures or memory-pressure failures.
-
-The white-box part is source-guided rather than coverage-complete. Full statement, branch, all-definitions, or all-uses coverage of `marshal.c` would require an instrumented CPython build and is outside this submission.
-
-The MicroPython hardware test is not equivalent to CPython testing. It is a supplemental ARM embedded check for a smaller subset, not evidence that CPython marshal behaves identically on a microcontroller runtime.
-
-Finally, the repository link is a placeholder and must be replaced with the public GitHub or GitLab URL before submission.
+The suite cannot prove universal determinism over all possible inputs, sizes, recursion depths, platforms, compiler options, or Python versions. The black-box suite is complete against the documented model, not against an infinite domain. The white-box result is for CPython `v3.13.13` on this Linux/GCC build; branches requiring unavailable memory, alternate operating systems, different compile-time macros, or impossible failure injection remain outside the measured run. MicroPython results are supplemental because MicroPython's marshal subset differs from CPython. Replace the repository placeholder with the public GitHub/GitLab URL before submission.
