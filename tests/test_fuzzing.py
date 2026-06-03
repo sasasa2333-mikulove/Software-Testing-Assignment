@@ -7,7 +7,6 @@ from hypothesis import strategies as st
 
 from marshal_stability.normalization import marshal_equal
 
-
 scalar_values = st.one_of(
     st.none(),
     st.booleans(),

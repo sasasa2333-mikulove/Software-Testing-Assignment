@@ -12,7 +12,11 @@ from pathlib import Path
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--port", required=True, help="Serial port, for example /dev/ttyACM0.")
+    parser.add_argument(
+        "--port",
+        required=True,
+        help="Serial port, for example /dev/ttyACM0.",
+    )
     parser.add_argument("--baud", default="115200", help="Serial baud rate.")
     parser.add_argument(
         "--script",

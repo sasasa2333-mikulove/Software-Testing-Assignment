@@ -49,7 +49,10 @@ def main() -> int:
     )
     payload = json.loads(_last_json_document(completed.stdout))
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+    args.output.write_text(
+        json.dumps(payload, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
     print(f"Wrote ARM Linux result to {args.output}")
     return 0
 

@@ -1,0 +1,73 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync --locked --dev
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      - run: uv run marshal-stability --output results/digests-${{ runner.os }}-${{ matrix.python-version }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ runner.os }}-${{ matrix.python-version }}
+          path: results/digests-${{ runner.os }}-${{ matrix.python-version }}.json
+
+  platform-digests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync --locked --dev
+      - run: uv run pytest -q
+      - run: uv run marshal-stability --output results/digests-${{ runner.os }}-${{ matrix.python-version }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: platform-digests-${{ runner.os }}-${{ matrix.python-version }}
+          path: results/digests-${{ runner.os }}-${{ matrix.python-version }}.json
+
+  docker:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        platform: ["linux/amd64", "linux/arm64"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - name: Build and test
+        run: |
+          docker buildx build \
+            --platform "${{ matrix.platform }}" \
+            --build-arg "PYTHON_VERSION=${{ matrix.python-version }}" \
+            --load \
+            -t "marshal-stability:${{ matrix.python-version }}" .
+          docker run --rm "marshal-stability:${{ matrix.python-version }}"

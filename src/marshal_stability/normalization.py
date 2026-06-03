@@ -45,8 +45,10 @@ def marshal_equal(left: Any, right: Any) -> bool:
             return False
         return all(marshal_equal(left[key], right[key]) for key in left)
 
-    if isinstance(left, Set) and isinstance(right, Set) and not isinstance(
-        left, (str, bytes, bytearray)
+    if (
+        isinstance(left, Set)
+        and isinstance(right, Set)
+        and not isinstance(left, (str, bytes, bytearray))
     ):
         return left == right
 
@@ -56,7 +58,7 @@ def marshal_equal(left: Any, right: Any) -> bool:
 def _sequence_equal(left: Sequence[Any], right: Sequence[Any]) -> bool:
     return len(left) == len(right) and all(
         marshal_equal(left_value, right_value)
-        for left_value, right_value in zip(left, right)
+        for left_value, right_value in zip(left, right, strict=True)
     )
 
 
@@ -64,7 +66,10 @@ def _same_recursive_list_shape(left: list[Any], right: list[Any]) -> bool:
     return len(left) == 1 and len(right) == 1 and left[0] is left and right[0] is right
 
 
-def _same_recursive_dict_shape(left: Mapping[str, Any], right: Mapping[str, Any]) -> bool:
+def _same_recursive_dict_shape(
+    left: Mapping[str, Any],
+    right: Mapping[str, Any],
+) -> bool:
     return (
         len(left) == 1
         and len(right) == 1
