@@ -41,3 +41,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         sys.stdout.write(text + "\n")
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
