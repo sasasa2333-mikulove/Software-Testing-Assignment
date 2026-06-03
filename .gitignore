@@ -18,3 +18,8 @@ source/
 results/
 report/*.pdf
 report/*.png
+whitebox/cpython/
+whitebox/build/
+whitebox/results/**
+!whitebox/results/
+!whitebox/results/.gitignore
