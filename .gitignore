@@ -5,6 +5,16 @@ build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Virtual environments
 .venv
+
+# Local course materials and generated experiment output
+source/
+results/
+report/*.pdf
+report/*.png
