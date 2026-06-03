@@ -65,9 +65,11 @@ jobs:
       - uses: docker/setup-buildx-action@v3
       - name: Build and test
         run: |
+          image_tag="marshal-stability:${{ matrix.python-version }}-${{ matrix.platform }}"
+          image_tag="${image_tag//\//-}"
           docker buildx build \
             --platform "${{ matrix.platform }}" \
             --build-arg "PYTHON_VERSION=${{ matrix.python-version }}" \
             --load \
-            -t "marshal-stability:${{ matrix.python-version }}" .
-          docker run --rm "marshal-stability:${{ matrix.python-version }}"
+            -t "${image_tag}" .
+          docker run --rm --platform "${{ matrix.platform }}" "${image_tag}"
