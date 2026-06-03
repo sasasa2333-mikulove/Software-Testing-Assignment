@@ -13,6 +13,8 @@ uv run ruff check .
 uv run marshal-stability --output results/local.json
 ```
 
+Detailed platform and white-box instructions are in `RUNNING.md`.
+
 The public repository URL in the report is a placeholder and should be replaced
 before submission:
 
