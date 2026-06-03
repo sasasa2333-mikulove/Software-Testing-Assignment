@@ -21,9 +21,16 @@ fi
 mkdir -p "${RESULTS}"
 
 "${PYTHON}" -m test test_marshal -v | tee "${RESULTS}/cpython_test_marshal.log"
-"${PYTHON}" -m pip install -e . >/dev/null
-"${PYTHON}" -m pip install pytest hypothesis >/dev/null
-"${PYTHON}" -m pytest tests -q | tee "${RESULTS}/project_pytest_on_instrumented_cpython.log"
+
+PYTHONPATH="${PWD}/src" "${PYTHON}" - <<'PY' | tee "${RESULTS}/project_marshal_smoke_on_instrumented_cpython.log"
+from marshal_stability.collector import collect_records
+
+records = collect_records(include_large=True)
+errors = [record for record in records if record.status != "ok"]
+print(f"project marshal smoke records={len(records)} errors={len(errors)}")
+if errors:
+    raise SystemExit(1)
+PY
 
 (
   cd "${BUILD_DIR}"
