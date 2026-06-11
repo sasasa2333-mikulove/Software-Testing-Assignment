@@ -19,5 +19,5 @@ The public repository URL in the report is a placeholder and should be replaced
 before submission:
 
 ```text
-https://github.com/<your-username>/softwaretestingassignment
+https://github.com/HerveyB3B4/softwaretestingassignment
 ```
