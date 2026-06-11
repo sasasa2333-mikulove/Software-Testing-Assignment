@@ -1,0 +1,126 @@
+{
+  "digest_classes": {
+    "dict_string_keys": [
+      "de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d"
+    ],
+    "frozenset_strings": [
+      "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4"
+    ],
+    "set_ints": [
+      "4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c"
+    ],
+    "set_strings": [
+      "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95"
+    ]
+  },
+  "results": [
+    {
+      "case_name": "dict_string_keys",
+      "digest": "de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 1,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"dict_string_keys\", \"digest\": \"de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "dict_string_keys",
+      "digest": "de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 2,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"dict_string_keys\", \"digest\": \"de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "dict_string_keys",
+      "digest": "de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 3,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"dict_string_keys\", \"digest\": \"de4173d5c01dfe82a9407ed05a88f515bc836e92d0dc137e20b5fbe5eef0ed8d\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_strings",
+      "digest": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 1,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_strings\", \"digest\": \"a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_strings",
+      "digest": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 2,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_strings\", \"digest\": \"a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_strings",
+      "digest": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 3,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_strings\", \"digest\": \"a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "frozenset_strings",
+      "digest": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 1,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"frozenset_strings\", \"digest\": \"2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "frozenset_strings",
+      "digest": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 2,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"frozenset_strings\", \"digest\": \"2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "frozenset_strings",
+      "digest": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 3,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"frozenset_strings\", \"digest\": \"2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_ints",
+      "digest": "4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 1,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_ints\", \"digest\": \"4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_ints",
+      "digest": "4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 2,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_ints\", \"digest\": \"4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    },
+    {
+      "case_name": "set_ints",
+      "digest": "4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c",
+      "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+      "returncode": 0,
+      "seed": 3,
+      "stderr": "",
+      "stdout": "{\"case_name\": \"set_ints\", \"digest\": \"4b2f213e2c113f0d0c45fc734fafe6b3ca32e27e86506bef6c20c0491829b35c\", \"marshal_version\": 4, \"python_version\": \"3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]\"}\n"
+    }
+  ]
+}

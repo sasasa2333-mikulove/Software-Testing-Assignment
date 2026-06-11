@@ -5,24 +5,28 @@ services:
       args:
         PYTHON_VERSION: "3.10"
     command: uv run pytest -q
+
   py311:
     build:
       context: .
       args:
         PYTHON_VERSION: "3.11"
     command: uv run pytest -q
+
   py312:
     build:
       context: .
       args:
         PYTHON_VERSION: "3.12"
     command: uv run pytest -q
+
   py313:
     build:
       context: .
       args:
         PYTHON_VERSION: "3.13"
     command: uv run pytest -q
+
   py314:
     build:
       context: .

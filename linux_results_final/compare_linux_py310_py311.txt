@@ -1,0 +1,42 @@
+{
+  "baseline": "linux_results_final/digests-linux-py310.json",
+  "baseline_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.10",
+    "python_version": "3.10.19 (main, Oct 14 2025, 21:25:25) [Clang 20.1.4 ]"
+  },
+  "candidate": "linux_results_final/digests-linux-py311.json",
+  "candidate_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.11",
+    "python_version": "3.11.14 (main, Oct 14 2025, 21:26:53) [Clang 20.1.4 ]"
+  },
+  "common_cases": 47,
+  "different_cases": [
+    {
+      "baseline": "ef4b5819bdf833e5bd073dbf084d86d7ca0ee5993f581e0f34d8f16ba2967f63",
+      "candidate": "8969e2f6588dfbb92a9ceacbc6d202079466f83e85f97685032f8032254e5d13",
+      "case_id": "code_object"
+    },
+    {
+      "baseline": "1a051c36e6df78a91f478e854acdb3a6aed5e7e7d837ff8a9cbbf8a44f05e0cb",
+      "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "case_id": "frozenset_of_strings"
+    },
+    {
+      "baseline": "a27103b6121ff2e1549975beb14b184ec0037b7a5321b34ab2b85785cfc16158",
+      "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "case_id": "set_of_strings"
+    }
+  ],
+  "different_status_cases": [],
+  "extra_in_candidate": [],
+  "missing_in_candidate": [],
+  "same_python_minor": false
+}

@@ -7,6 +7,7 @@ wheels/
 *.egg-info
 .pytest_cache/
 .ruff_cache/
+.hypothesis/
 .coverage
 htmlcov/
 
@@ -23,3 +24,6 @@ whitebox/build/
 whitebox/results/**
 !whitebox/results/
 !whitebox/results/.gitignore
+!whitebox/results/assignment_whitebox_driver.json
+!whitebox/results/assignment_hash_seed_observations.json
+!whitebox/results/assignment_gcov_summary.json

@@ -46,3 +46,21 @@ def test_recursive_dict_roundtrip_preserves_cycle() -> None:
     loaded = marshal.loads(marshal.dumps(value))
 
     assert loaded["self"] is loaded
+
+
+def test_shared_child_list_roundtrip_preserves_identity() -> None:
+    child = ["shared"]
+    value = [child, child]
+
+    loaded = marshal.loads(marshal.dumps(value))
+
+    assert loaded[0] is loaded[1]
+
+
+def test_nested_shared_graph_roundtrip_preserves_identity() -> None:
+    child = {"leaf": [1, 2, 3]}
+    value = {"left": [child], "right": [child]}
+
+    loaded = marshal.loads(marshal.dumps(value))
+
+    assert loaded["left"][0] is loaded["right"][0]

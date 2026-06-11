@@ -1,0 +1,977 @@
+{
+  "allow_code_supported": false,
+  "hash_seed_results_path": "whitebox/results/assignment_hash_seed_observations.json",
+  "marshal_version": 4,
+  "notes": [
+    "CPython official test_marshal is an external baseline, not counted as assignment-specific white-box results.",
+    "Stable unsupported buffer-like values are recorded by exception type."
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python_version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:17:27) [MSC v.1929 64 bit (AMD64)]",
+  "stream_results": [
+    {
+      "case_id": "empty_stream",
+      "description": "empty input",
+      "observation": {
+        "exception_type": "EOFError",
+        "status": "error",
+        "value_repr": null,
+        "value_type": null
+      },
+      "wb_id": "WB8"
+    },
+    {
+      "case_id": "invalid_tag",
+      "description": "single invalid tag byte",
+      "observation": {
+        "exception_type": "ValueError",
+        "status": "error",
+        "value_repr": null,
+        "value_type": null
+      },
+      "wb_id": "WB8"
+    },
+    {
+      "case_id": "truncated_valid_dump",
+      "description": "valid dump with final byte removed",
+      "observation": {
+        "exception_type": "EOFError",
+        "status": "error",
+        "value_repr": null,
+        "value_type": null
+      },
+      "wb_id": "WB8"
+    },
+    {
+      "case_id": "corrupted_middle_byte",
+      "description": "valid dump with one middle byte flipped",
+      "observation": {
+        "exception_type": null,
+        "status": "ok",
+        "value_repr": "{'alpha': [1, 16711682, 3], 'omega': 'tail'}",
+        "value_type": "dict"
+      },
+      "wb_id": "WB8"
+    },
+    {
+      "case_id": "trailing_bytes",
+      "description": "valid dump followed by another marshal payload",
+      "observation": {
+        "exception_type": null,
+        "status": "ok",
+        "value_repr": "'first'",
+        "value_type": "str"
+      },
+      "wb_id": "WB8"
+    }
+  ],
+  "value_results": [
+    {
+      "case_id": "none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "primitive type dispatch",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB1"
+    },
+    {
+      "case_id": "true",
+      "digest": "e632b7095b0bf32c260fa4c539e9fd7b852d0de454e9be26f24d0d6f91d069d3",
+      "source_area": "primitive type dispatch",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB1"
+    },
+    {
+      "case_id": "false",
+      "digest": "f67ab10ad4e4c53121b6a5fe4da9c10ddee905b978d3788d2723d7bfacbe28a9",
+      "source_area": "primitive type dispatch",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB1"
+    },
+    {
+      "case_id": "stop_iteration",
+      "digest": "8de0b3c47f112c59745f717a626932264c422a7563954872e237b223af4ad643",
+      "source_area": "primitive type dispatch",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB1"
+    },
+    {
+      "case_id": "ellipsis",
+      "digest": "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8",
+      "source_area": "primitive type dispatch",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB1"
+    },
+    {
+      "case_id": "zero",
+      "digest": "e8ebd827d1f36d7cfa5e5220610aa6370284d1589989363f48ac40166362d449",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "one",
+      "digest": "59e562517a08b1f9edb930c1553aaf2e6947c1000705dfa4ed20b03b29363da1",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "minus_one",
+      "digest": "72aea108d59af9a3db0854601259c9d9a62dce69f656f4a3f4e451500fb85a1f",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_15bit_max",
+      "digest": "f804c5c1f57fde23f48897e0e7db403c09e2b5336d7b5199d1dfbf69ae6f93e5",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_15bit_boundary",
+      "digest": "9ce92f0a982d362f92aa5c527738a6cba69397ec7eff0fc776e9e08af455499c",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_negative_15bit_boundary",
+      "digest": "e1d6d031964e7050a6907d9e49de0a69134c80f7d6f42a71c122b1de8833034c",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_31bit_max",
+      "digest": "e516a8460a50e97422bd42df9be24ed73081da8f9758f196c6ce7569e5b4850f",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_31bit_boundary",
+      "digest": "70f286d27bc1e55c830066343a8fe2489d76660e68b3a62cd943ad76d574aa4a",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_negative_31bit_boundary",
+      "digest": "00f37a5857c5b8d261c8f01324a48522771c7d9a1e5bc52b3c074c9162009dca",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_below_negative_31bit_boundary",
+      "digest": "703b02d8a67f994c75e02c8a1abc6f8e31f12c8c4492762556d94447b9b41740",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_63bit_max",
+      "digest": "7da212917f2e476cf4865db2c13815055c744e353a553464833b8c812de25fcf",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_63bit_boundary",
+      "digest": "95d4ad4027f527c14a76f13cf23b94c45272e82a4be8407bbab87cbc83522728",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_negative_63bit_boundary",
+      "digest": "1d14c0165fb31ea4cbd0bb1b47e51ff68e5b351ac4e805209bc25b8a011c9e8a",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "int_very_large",
+      "digest": "8b3eeaf79ea58e00abaec4252e2eecf9a5bd34e03797db9937fcaf2d2707fab9",
+      "source_area": "integer encoding branches",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB2"
+    },
+    {
+      "case_id": "float_zero",
+      "digest": "a7b2474c2b69133fff4c0515276a03bbf9d1c38d1d1f8c08bd5db478181398d6",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_negative_zero",
+      "digest": "61d36befa08b84a6b58ddc977ad118100fb1e244e7be671d6f1e027ba585a163",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_positive",
+      "digest": "6026796fb71c5d7591258d4d3d481d0f46f3d683b1d70d9c264d8cdd899f68d9",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_negative",
+      "digest": "1a52bb3e2a25312d4f8e106df294cfee6c00d228ef51c00738249ba87a120c10",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_inf",
+      "digest": "a723a76079a60280dcdb2d7984a2adf4a0874e31b9518b30dfc0cfd9c3b53c54",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_negative_inf",
+      "digest": "860d99b42a646c71e28db195c6fdd2478e70455cb540732d1204ea023e3fb0cf",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_nan",
+      "digest": "c0071368d2b0e5cb29b0995db32ea00ef9a3c215871dbabf0d4146930d1c7196",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "float_subnormal",
+      "digest": "caec16c6b6f9a5b48ce9c9a9afa476b7af4edcddab6948069514f2b25064a45f",
+      "source_area": "float writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "complex_normal",
+      "digest": "6fb6045c6cf3707a1c906c4f1610ef6a474a756f133ad0ad39541c3186d10d69",
+      "source_area": "complex writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "complex_zeroes",
+      "digest": "ecc9d31e234cb555be59c308a16e7307008444fdec7e7af1a5e7d5f859268e51",
+      "source_area": "complex writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "complex_special",
+      "digest": "b1194f92a2ed5f16c6e91441dcdf862a70d85a3073591ef20bfdf3bfe4284deb",
+      "source_area": "complex writer and reader paths",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB3"
+    },
+    {
+      "case_id": "empty_str",
+      "digest": "153d812467db095632c6583da7f82cf7ad1e3f9ef18b6358c10f28d2804822f4",
+      "source_area": "unicode string path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "ascii_str",
+      "digest": "31ae682056a80bc06e19cfe182457cd58134a0bacb68c2e3a6c25b47bf39d593",
+      "source_area": "unicode string path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "unicode_str",
+      "digest": "655daf3a903a063bdedf772351e0867df7d6660b0337b068385dfe9cb68e2729",
+      "source_area": "unicode string path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "emoji_str",
+      "digest": "645c1d73b7be690a8c6cc6fed63ee674bb08cd507c86746b7de82d0a220ed693",
+      "source_area": "unicode string path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "empty_bytes",
+      "digest": "1e39f9576a47375992ed7b53b49a4fe68e1622c87227165ee0246d3c345996f1",
+      "source_area": "bytes path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "short_bytes",
+      "digest": "3ec42ec35cc73a2f67d9b26583660989d8fff56b981d1ebadc4b0eb4a56e2977",
+      "source_area": "bytes path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "bytes_255",
+      "digest": "3970cfaa6a2592537a6ec1e05cb1062350b0122caefb2dcf48853b7f158a2e43",
+      "source_area": "bytes length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "bytes_256",
+      "digest": "0b08ed82f6c155739862b18db0d9bcd0717c90a3bd87e72a5828d85356b79078",
+      "source_area": "bytes length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "bytes_257",
+      "digest": "db94b87551c48a0916df7fc510dc28c81591a55ff5c77a69a76af0c0f802bb9f",
+      "source_area": "bytes length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "bytes_4096",
+      "digest": "f97b44b494ac2ac81a9e0e37a3092f86ba1e94bb148de108487e1de3259a31a4",
+      "source_area": "bytes length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "bytearray",
+      "digest": "3ec42ec35cc73a2f67d9b26583660989d8fff56b981d1ebadc4b0eb4a56e2977",
+      "source_area": "buffer-like input path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "memoryview",
+      "digest": "3ec42ec35cc73a2f67d9b26583660989d8fff56b981d1ebadc4b0eb4a56e2977",
+      "source_area": "buffer-like input path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB4"
+    },
+    {
+      "case_id": "empty_tuple",
+      "digest": "86c11f10c038a75279e64a09cbc5cacb478a9af27d1b5cce1d1b1cc7e23a1b81",
+      "source_area": "tuple writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "non_empty_tuple",
+      "digest": "1c778da5aca359f5dfa5140c07097c0acc310116bf9ba1a1ba4d3e8128e242d1",
+      "source_area": "tuple writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "empty_list",
+      "digest": "cd13cd2473c97737511c66500c332fdf9ad78c5f6e8d4eb4fea992bb63f42055",
+      "source_area": "list writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "non_empty_list",
+      "digest": "2fd9a7536276e80cd75fac7099481649f0a8861b4648d175044e730083e00b4f",
+      "source_area": "list writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "empty_dict",
+      "digest": "fa433c89e61178902327da13af7dc0b09aede94a362de11626c21700a658c353",
+      "source_area": "dict writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "non_empty_dict",
+      "digest": "dfac25175367deb81e476277ff0a56c7a26d07846fab25a0f8895cdef465627f",
+      "source_area": "dict writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "empty_set",
+      "digest": "995046494f919338259e00eb000e87957890be5cb4e30be304e6646e1426578b",
+      "source_area": "set writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "int_set",
+      "digest": "cddf0b000e7d5e4d9d7ffbbf3ecc0f056e311652a56278e911321cfc9c588ec9",
+      "source_area": "set writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "string_set",
+      "digest": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "source_area": "set writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "empty_frozenset",
+      "digest": "4c237f2998e18f5c62047214de243bf62daa715906dfc6776b948ec9ec2fe2bd",
+      "source_area": "frozenset writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "string_frozenset",
+      "digest": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "source_area": "frozenset writer loop",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "nested_containers",
+      "digest": "8a0671930fae078acd1ba4eb6e289f829e2f972869f8bd6a5e1c5b0771966c26",
+      "source_area": "nested container recursion",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_0",
+      "digest": "cd13cd2473c97737511c66500c332fdf9ad78c5f6e8d4eb4fea992bb63f42055",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_0",
+      "digest": "fa433c89e61178902327da13af7dc0b09aede94a362de11626c21700a658c353",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_1",
+      "digest": "b5db73c6e45b69d94b4b3d65261da5797f5eb44297e433ce313e863dc8b75c87",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_1",
+      "digest": "61e8a0f2374660ca58639f6728e02a2399e34134e920be2dbd9da56ae85be136",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_2",
+      "digest": "731fb168962e77a77033367458abdb9dc756a3fcc7d6d9b630cf797bab6507b0",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_2",
+      "digest": "f3ab0caf1176452033d1e7d32bd4ea4eddb1233dcf85425d1035a2d9f591c88f",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_255",
+      "digest": "a6fd3fedb440a9f735bd9069f58457be05df6007ec212c58fc30585679efa68f",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_255",
+      "digest": "0a79ba9b74c63ee8a8c80e67a85dcebf8457310b12fd586d6761e7bfa2ca9cd5",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_256",
+      "digest": "32453f6531b16062a13cba8809940bb822097e57373f880e6243e99e43fc811a",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_256",
+      "digest": "4cd7124e2c8bcb53b4ef406cde727fb6a8056767abfe1ca6166807acf5f985eb",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "list_size_1000",
+      "digest": "56bd07653c06de22611041c7eab196c75ad0617b2c6e4f68dd8498c5dce38ce7",
+      "source_area": "list length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "dict_size_1000",
+      "digest": "4ee2fb76d43efb9a986c85e0485d297519e617e37ffa5280db501db6452b001c",
+      "source_area": "dict length boundary",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB5"
+    },
+    {
+      "case_id": "recursive_list",
+      "digest": "d77105626a6c7416c78bc6bb583d35560e158f58dac24718da9cf23f06e2fe85",
+      "source_area": "reference table state",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB6"
+    },
+    {
+      "case_id": "recursive_dict",
+      "digest": "ba5fe04b4870548bdc6cd91517781a0feb8150ef0ed35966a575fb1ef621bd55",
+      "source_area": "reference table state",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB6"
+    },
+    {
+      "case_id": "shared_child_list",
+      "digest": "c7654eaedd4bcad3f99db5de146e3e8993593c1afca02f026215089033ecf427",
+      "source_area": "TYPE_REF reuse",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB6"
+    },
+    {
+      "case_id": "nested_shared_graph",
+      "digest": "e255d7288d1625f01e51060e1dbc1f158ed20531c342869009e0e89757113e9a",
+      "source_area": "TYPE_REF reuse",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB6"
+    },
+    {
+      "case_id": "sample_code_object",
+      "digest": "9fda5ceb2bbf14bf2412e00bcedaa11f7aa52f868fd97d0afe66111c29a37ee2",
+      "source_area": "code-object writer and reader path",
+      "status": "ok",
+      "version": null,
+      "wb_id": "WB7"
+    }
+  ],
+  "version_results": [
+    {
+      "case_id": "version_0_none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_int",
+      "digest": "9f1d6d2fb4c691836e1e33004d3b695f3224a29104c85dc2d2e64a5fd098bb0c",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_float",
+      "digest": "e0b9a951d6747c0f389d9964ba06a77a7f502faeb0d7af35e784a7271729ea59",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_str",
+      "digest": "46cddee18341c62ff8896762f417f614ef4e37900b65e75b469426744ab18fe4",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_bytes",
+      "digest": "3d48d2a2ad465e7f4aee980690cf1b1d78b2e86794c1d1c44bd1a1929814f256",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_tuple",
+      "digest": "d3db24473d81b870b9f6377c17c7d41431d81aa8ce2f098009f0ab8ee9071bd9",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_list",
+      "digest": "5859fc936213695dbf0f52f9946b777376a440d04195948cb16256409778eb56",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_0_dict",
+      "digest": "66088789d9f6d51f7b225b0d0391fd6bd5aacb6ffdfa270b577129bf629a965d",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 0,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_int",
+      "digest": "9f1d6d2fb4c691836e1e33004d3b695f3224a29104c85dc2d2e64a5fd098bb0c",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_float",
+      "digest": "e0b9a951d6747c0f389d9964ba06a77a7f502faeb0d7af35e784a7271729ea59",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_str",
+      "digest": "46cddee18341c62ff8896762f417f614ef4e37900b65e75b469426744ab18fe4",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_bytes",
+      "digest": "3d48d2a2ad465e7f4aee980690cf1b1d78b2e86794c1d1c44bd1a1929814f256",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_tuple",
+      "digest": "d3db24473d81b870b9f6377c17c7d41431d81aa8ce2f098009f0ab8ee9071bd9",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_list",
+      "digest": "5859fc936213695dbf0f52f9946b777376a440d04195948cb16256409778eb56",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_1_dict",
+      "digest": "4acf10fa898928118669fa8d43fe844286361a9f847dbac7f7437fc74c48eac2",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 1,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_int",
+      "digest": "9f1d6d2fb4c691836e1e33004d3b695f3224a29104c85dc2d2e64a5fd098bb0c",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_float",
+      "digest": "59bd8a8ee03f0b01682a71294f7beea8c9a8be7f893339f676120e55e137e950",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_str",
+      "digest": "46cddee18341c62ff8896762f417f614ef4e37900b65e75b469426744ab18fe4",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_bytes",
+      "digest": "3d48d2a2ad465e7f4aee980690cf1b1d78b2e86794c1d1c44bd1a1929814f256",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_tuple",
+      "digest": "d3db24473d81b870b9f6377c17c7d41431d81aa8ce2f098009f0ab8ee9071bd9",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_list",
+      "digest": "5859fc936213695dbf0f52f9946b777376a440d04195948cb16256409778eb56",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_2_dict",
+      "digest": "2ebdffc9d92d662094fdb98f0c3520cfed5179ea2083683e1eb173d0eb042e3c",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 2,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_int",
+      "digest": "70f286d27bc1e55c830066343a8fe2489d76660e68b3a62cd943ad76d574aa4a",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_float",
+      "digest": "61d36befa08b84a6b58ddc977ad118100fb1e244e7be671d6f1e027ba585a163",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_str",
+      "digest": "5a0dee248f0226b4c2e73521e69310500a23007ed327a6189bfcd03094219bff",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_bytes",
+      "digest": "55061a55af69540b989bcb9db46e1f05539b23ff45690d4c4e3788e13f9de6d1",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_tuple",
+      "digest": "6953851b330382f0e80cba630a3b3aeabbb9b0407a500e69a882b89a5c0a9432",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_list",
+      "digest": "e8d78d57d1e0438a051682277b2fb68178db03f14dff349e335ac98565991c85",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_dict",
+      "digest": "64c6ccb86d0a2848d9eb9ac6c26f07cd120f4e949081d0f1581fe0dad8756fcd",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_3_recursive_list",
+      "digest": "d77105626a6c7416c78bc6bb583d35560e158f58dac24718da9cf23f06e2fe85",
+      "source_area": "format version reference support",
+      "status": "ok",
+      "version": 3,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_none",
+      "digest": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_int",
+      "digest": "70f286d27bc1e55c830066343a8fe2489d76660e68b3a62cd943ad76d574aa4a",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_float",
+      "digest": "61d36befa08b84a6b58ddc977ad118100fb1e244e7be671d6f1e027ba585a163",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_str",
+      "digest": "940d981f85b745fb623654768fadee80a7b355b5996c292e591a4bdd1452f118",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_bytes",
+      "digest": "55061a55af69540b989bcb9db46e1f05539b23ff45690d4c4e3788e13f9de6d1",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_tuple",
+      "digest": "1c778da5aca359f5dfa5140c07097c0acc310116bf9ba1a1ba4d3e8128e242d1",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_list",
+      "digest": "e8d78d57d1e0438a051682277b2fb68178db03f14dff349e335ac98565991c85",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_dict",
+      "digest": "a27d47f464f3285dfda57720bd0502e95b9747535aca35a779d68fa0bfd50c64",
+      "source_area": "format version",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    },
+    {
+      "case_id": "version_4_recursive_list",
+      "digest": "d77105626a6c7416c78bc6bb583d35560e158f58dac24718da9cf23f06e2fe85",
+      "source_area": "format version reference support",
+      "status": "ok",
+      "version": 4,
+      "wb_id": "WB9"
+    }
+  ],
+  "workload": "assignment-specific source-informed marshal driver"
+}

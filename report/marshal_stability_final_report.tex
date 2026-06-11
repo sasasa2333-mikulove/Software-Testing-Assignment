@@ -1,0 +1,668 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[margin=1.35cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{seqsplit}
+
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcommand{\tablefont}{\small}
+\newcommand{\breakcode}[1]{{\ttfamily\expandafter\seqsplit\expandafter{\detokenize{#1}}}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.28em}
+\setlength{\tabcolsep}{3pt}
+\emergencystretch=2em
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\setlist[itemize]{leftmargin=1.15em,itemsep=0.04em,topsep=0.04em}
+\setlist[enumerate]{leftmargin=1.15em,itemsep=0.04em,topsep=0.04em}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    columns=fullflexible,
+    frame=single
+}
+
+\title{\vspace{-1.3em}Testing the Stability and Correctness of Python's \texttt{marshal} Module}
+\author{Team members: Zhu Jin, Li Haosen, Zhang Hengwei, Quan Ye, Li Yunzhe}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\begin{center}
+Repository: \url{https://github.com/HerveyB3B4/Software-Testing-Assignment.git}
+\end{center}
+
+\section{Objective and Oracle}
+
+The module under test is Python's \texttt{marshal} serializer. It is mainly used by CPython to write and read pseudo-compiled bytecode files such as \texttt{.pyc}. The format is intended to be architecture-independent for a given Python version, but it is explicitly not a stable interchange format across Python releases. This makes it a useful target for software testing: the module has normal correctness obligations, but the assignment's main question is stricter than ordinary correctness. It asks whether the same input always creates the same serialized byte stream under different conditions.
+
+We used three oracles. The primary oracle is \textbf{byte identity}: two outputs are equal only when their \texttt{marshal.dumps(x)} byte streams have the same SHA-256 digest. The secondary oracle is \textbf{round-trip correctness}: when loading is supported, \texttt{marshal.loads(marshal.dumps(x))} should reconstruct an equivalent value, including special handling for \texttt{NaN} and shared references. The negative-test oracle is \textbf{stable failure}: unsupported objects and invalid byte streams should fail with expected exception categories instead of silently producing arbitrary values.
+
+Logical equality is insufficient for this assignment: two logically equal objects may still have different marshal byte streams. Therefore, digest artifacts record runtime metadata, status, SHA-256 digest, byte length, and exception type. The suite found both stable regions and byte-level sensitive cases; the most important sensitive cases were \texttt{code\_object}, \texttt{set\_of\_strings}, and \texttt{frozenset\_of\_strings}.
+
+\section{Requirement Extraction}
+
+The assignment statement and lecture notes were converted into concrete test requirements before implementation. This helped avoid a test suite that only checks happy-path serialization.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.18}
+
+\begin{longtable}{@{}L{0.07\linewidth}L{0.63\linewidth}L{0.24\linewidth}@{}}
+\toprule
+\textbf{Req.} & \textbf{Testing requirement and rationale} & \textbf{Expected evidence} \\
+\midrule
+
+R1 &
+\textbf{Requirement:} Same input, same full Python version and platform, repeated execution should produce hash-identical bytes.
+
+\textbf{Why it matters:} Directly tests determinism under controlled runtime conditions. &
+run1/run2 digest comparison \\
+
+R2 &
+\textbf{Requirement:} Same input and same Python minor version should be compared across OS/architecture where possible.
+
+\textbf{Why it matters:} Tests architecture and platform sensitivity. &
+same-minor comparison with patch version, architecture, and compiler recorded as confounding factors \\
+
+R3 &
+\textbf{Requirement:} Different Python versions should be compared but not treated as ordinary failures.
+
+\textbf{Why it matters:} \texttt{marshal} format may evolve. &
+cross-version difference table \\
+
+R4 &
+\textbf{Requirement:} Integer and collection boundary values must be included.
+
+\textbf{Why it matters:} Encoding branches often change at boundaries. &
+BVA cases and pytest output \\
+
+R5 &
+\textbf{Requirement:} Floating-point special values must be included.
+
+\textbf{Why it matters:} \texttt{NaN}, \texttt{Inf}, negative zero, and subnormal values can be subtle. &
+NaN-aware round-trip and digest records \\
+
+R6 &
+\textbf{Requirement:} Recursive and shared-reference object graphs must be included.
+
+\textbf{Why it matters:} \texttt{marshal} has reference tracking behavior. &
+identity-preservation assertions \\
+
+R7 &
+\textbf{Requirement:} Invalid inputs and unsupported objects must be included.
+
+\textbf{Why it matters:} Correct failure is part of correctness. &
+exception type and message class \\
+
+R8 &
+\textbf{Requirement:} Unordered containers and hash seed variation must be tested.
+
+\textbf{Why it matters:} Sets and frozensets can reveal byte-order sensitivity. &
+cross-process/hash-seed comparison \\
+
+R9 &
+\textbf{Requirement:} Code objects and format-version options must be tested.
+
+\textbf{Why it matters:} Code objects expose interpreter-internal representation. &
+code-object and \texttt{allow\_code} tests \\
+
+R10 &
+\textbf{Requirement:} Linux should be included as a full CPython version branch where available; MicroPython remains optional only.
+
+\textbf{Why it matters:} Linux evidence strengthens the operating-system and runtime matrix beyond macOS and Windows. &
+Linux x86\_64 CPython 3.10--3.14 pytest and digest artifacts \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Test Suite Design}
+
+The test catalog was designed around input partitions and risk areas rather than around a single list of examples. CPython runs the full suite; MicroPython is treated only as optional future work because it is not equivalent to full CPython marshal behavior.
+
+\begingroup
+\normalsize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.18}
+
+\begin{longtable}{@{}L{0.17\linewidth}L{0.78\linewidth}@{}}
+\toprule
+\textbf{Input class} & \textbf{Representative values, risk target, and oracle} \\
+\midrule
+
+Singletons &
+\textbf{Values:} \texttt{None}, \texttt{True}, \texttt{False}, \texttt{Ellipsis}, and \texttt{StopIteration}. \newline
+\textbf{Risk target:} Primitive type tags and documented marshal support. \newline
+\textbf{Oracle:} Stable digest and round trip. \\
+
+Integers &
+\textbf{Values:} \texttt{0}, \texttt{-1}, \texttt{2**15}, \texttt{2**31}, \texttt{2**63}, and \texttt{2**100}. \newline
+\textbf{Risk target:} Small integer, long integer, sign, and size boundaries. \newline
+\textbf{Oracle:} Exact value equality. \\
+
+Float/complex &
+\textbf{Values:} \texttt{0.0}, \texttt{-0.0}, \texttt{5e-324}, \texttt{Inf}, \texttt{-Inf}, \texttt{NaN}, and complex values with special parts. \newline
+\textbf{Risk target:} IEEE representation, NaN comparison, negative zero, and subnormal values. \newline
+\textbf{Oracle:} NaN-aware equality and digest. \\
+
+Text/binary &
+\textbf{Values:} Empty string, ASCII, Unicode, Chinese/European text, empty bytes, bytes with NUL, bytearray, and memoryview. \newline
+\textbf{Risk target:} Encoding length, UTF-8, binary NUL, and buffer-like inputs. \newline
+\textbf{Oracle:} Byte-level digest and loaded value. \\
+
+Containers &
+\textbf{Values:} Empty and non-empty tuple, list, dict, set, frozenset, and nested containers. \newline
+\textbf{Risk target:} Container loops, length handling, and composition of supported values. \newline
+\textbf{Oracle:} Round trip and digest. \\
+
+References &
+\textbf{Values:} A list containing itself, a dict pointing to itself, two references to one child list, and a nested shared graph. \newline
+\textbf{Risk target:} Reference-table and \texttt{TYPE\_REF} behavior. \newline
+\textbf{Oracle:} Identity relation preserved. \\
+
+Code object &
+\textbf{Values:} A simple function \texttt{\_\_code\_\_} object and \texttt{allow\_code=False} when available. \newline
+\textbf{Risk target:} Interpreter bytecode and version-sensitive fields. \newline
+\textbf{Oracle:} Digest record or expected exception. \\
+
+Unsupported object &
+\textbf{Values:} Function object, \texttt{object()}, and unsupported objects inside list/dict containers. \newline
+\textbf{Risk target:} Negative writer behavior. \newline
+\textbf{Oracle:} Expected exception. \\
+
+Invalid stream &
+\textbf{Values:} Empty bytes, illegal tag, truncated stream, corrupted byte, trailing bytes, and non-bytes input. \newline
+\textbf{Risk target:} Reader dispatch and boundary checking. \newline
+\textbf{Oracle:} Expected exception or documented trailing behavior. \\
+
+Format version &
+\textbf{Values:} \texttt{version=0..marshal.version}; Python 3.14 slice when available. \newline
+\textbf{Risk target:} Format-version branches and format evolution. \newline
+\textbf{Oracle:} Digest observation, not cross-version failure. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Testing Techniques}
+
+The suite combines black-box and source-informed white-box techniques. The goal was not to maximize the number of tests mechanically, but to cover different circumstances under which the same input might stop being byte-identical.
+
+\begingroup
+\normalsize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.18}
+
+\begin{longtable}{@{}L{0.22\linewidth}L{0.73\linewidth}@{}}
+\toprule
+\textbf{Technique} & \textbf{Application and rationale} \\
+\midrule
+
+Equivalence partitioning &
+\textbf{Application:} Inputs were divided into supported primitives, numeric values, text/binary data, containers, recursive structures, code objects, and invalid inputs. \newline
+\textbf{Rationale:} This prevents over-testing one type while missing another supported behavior class. \\
+
+Boundary value analysis &
+\textbf{Application:} Integer limits, empty collections, large collections, subnormal floats, negative zero, and truncation boundaries were selected. \newline
+\textbf{Rationale:} Marshal encoding may change at length boundaries, integer-size boundaries, and special numeric representations. \\
+
+Negative testing &
+\textbf{Application:} Unsupported objects and malformed byte streams were tested through \texttt{dumps}, \texttt{loads}, and stream APIs. \newline
+\textbf{Rationale:} Correctness includes predictable rejection of invalid input, not only successful serialization of valid input. \\
+
+Stability testing &
+\textbf{Application:} Each catalog case was serialized repeatedly in the same process and collected again in separate runs. \newline
+\textbf{Rationale:} This directly tests the assignment's ``same input, same output'' question using hash-identical byte streams. \\
+
+Fuzzing &
+\textbf{Application:} Property-based tests generated supported nested values and checked round-trip behavior plus repeated-byte equality where applicable. \newline
+\textbf{Rationale:} Fuzzing increases input variety beyond manually listed examples while still generating meaningful marshal-supported object structures. \\
+
+Source-informed white-box &
+\textbf{Application:} Tests were mapped to \texttt{Python/marshal.c} obligations: primitive dispatch, integer branches, float/complex paths, buffer handling, container loops, reference tracking, code path, invalid tag handling, and format-version behavior. \newline
+\textbf{Rationale:} This uses source-code structure to target risky implementation paths without claiming complete path coverage or complete all-definitions/all-uses coverage. \\
+
+Platform/version matrix &
+\textbf{Application:} macOS, Windows, and Linux artifacts were collected for CPython 3.10 through 3.14 where available. \newline
+\textbf{Rationale:} This separates same-version determinism from cross-version format evolution and supports cross-platform comparison. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection*{Source-informed Coverage Summary}
+
+Although this project is mainly driven by black-box stability requirements, the availability of CPython's marshal implementation allowed us to add source-informed white-box tests. The purpose was not to claim complete path coverage, but to map tests to important implementation responsibilities in \texttt{Python/marshal.c}: type dispatch, integer encoding, floating-point encoding, container traversal, reference tracking, code-object serialization, stream reader errors, and format-version handling.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\begin{longtable}{@{}L{0.25\linewidth}L{0.35\linewidth}L{0.34\linewidth}@{}}
+\toprule
+\textbf{Source-informed target} & \textbf{Related marshal behavior} & \textbf{Representative test evidence} \\
+\midrule
+
+Integer encoding branches &
+Small integers, long integers, sign handling, 15-bit, 32-bit, and 63-bit boundaries. &
+Boundary-value tests and digest cases such as \texttt{int\_15bit\_edge}, \texttt{int\_32bit\_overflow}, and \texttt{int\_large}. \\
+
+Float and complex paths &
+\texttt{NaN}, \texttt{Inf}, negative zero, subnormal floats, and complex numbers with special parts. &
+Focused float/complex pytest groups and NaN-aware round-trip assertions. \\
+
+Container writer loops &
+Lists, tuples, dictionaries, sets, frozensets, nested containers, empty cases, and selected large cases. &
+Equivalence-partition and boundary-value tests for empty, nested, unordered, and larger collections. \\
+
+Reference tracking &
+Recursive lists, recursive dictionaries, shared child objects, and nested shared graphs. &
+Recursive/reference focused tests and identity-preservation assertions after round trip. \\
+
+Reader error paths &
+Invalid tags, empty streams, truncated streams, corrupted streams, trailing bytes, and unsupported input types. &
+Negative tests for expected exception categories and stable failure behavior. \\
+
+Code-object and format paths &
+Function \texttt{\_\_code\_\_} objects, \texttt{allow\_code} behavior, and marshal format-version parameters. &
+Code-object digest records, format-version tests, and cross-version comparison artifacts. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Traceability Matrix}
+
+The following matrix links requirements to tests and evidence. It also shows which requirements produced findings rather than only pass results.
+
+\begingroup
+\normalsize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.16}
+
+\begin{longtable}{@{}L{0.08\linewidth}L{0.87\linewidth}@{}}
+\toprule
+\textbf{Req.} & \textbf{Traceability evidence} \\
+\midrule
+
+R1 &
+\textbf{Requirement:} Same input, same full Python version and platform should produce hash-identical bytes under repeated execution. \newline
+\textbf{Tests / artifacts:} Digest catalog, run1/run2 comparison, \breakcode{tests/test_stability.py}, and \breakcode{scripts/compare_digests.py}. \newline
+\textbf{Evidence / finding:} macOS, Windows, and Linux repeated/digest evidence was collected; Linux 3.13 run1/run2 had 47 common cases and no digest/status differences. \\
+
+R2 &
+\textbf{Requirement:} Same input and same Python minor version should be compared across OS/architecture where possible. \newline
+\textbf{Tests / artifacts:} macOS/Windows/Linux digest artifacts and pairwise comparison scripts. \newline
+\textbf{Evidence / finding:} Cross-platform comparison found \texttt{code\_object} sensitivity; patch version, architecture, and compiler were recorded as confounding factors. \\
+
+R3 &
+\textbf{Requirement:} Different Python versions should be compared but not treated as ordinary failures. \newline
+\textbf{Tests / artifacts:} Digest matrix for Python 3.10--3.14 using \breakcode{scripts/summarize_digest_matrix.py} and saved digest artifacts. \newline
+\textbf{Evidence / finding:} Cross-version difference counts were collected. Marshal format evolution was observed, especially for \texttt{code\_object} and selected unordered string containers. \\
+
+R4 &
+\textbf{Requirement:} Integer and collection boundary values must be included. \newline
+\textbf{Tests / artifacts:} Integer and collection BVA tests using \breakcode{test_wb2_integer_encoding_boundaries} and \breakcode{test_wb5_container_writer_paths}. \newline
+\textbf{Evidence / finding:} Full pytest results and focused logs were collected. No same-version instability was found for the selected boundary cases. \\
+
+R5 &
+\textbf{Requirement:} Floating-point special values must be included. \newline
+\textbf{Tests / artifacts:} Floating-point focused groups and fuzzed supported-value tests. \newline
+\textbf{Evidence / finding:} macOS/Windows focused groups passed; Linux passed the focused float/complex group with 29 passed and 228 deselected. \\
+
+R6 &
+\textbf{Requirement:} Recursive and shared-reference object graphs must be included. \newline
+\textbf{Tests / artifacts:} Recursive/cyclic/reference focused groups and reference-tracking white-box tests. \newline
+\textbf{Evidence / finding:} macOS/Windows focused groups passed; Linux passed with 13 passed and 244 deselected. Reference tracking passed in the selected cases. \\
+
+R7 &
+\textbf{Requirement:} Invalid inputs and unsupported objects must be included. \newline
+\textbf{Tests / artifacts:} Invalid/unsupported focused groups and reader-dispatch tests. \newline
+\textbf{Evidence / finding:} macOS/Windows focused groups passed; Linux passed with 22 passed and 235 deselected. Expected failure behavior was observed. \\
+
+R8 &
+\textbf{Requirement:} Unordered containers and hash seed variation must be tested. \newline
+\textbf{Tests / artifacts:} Determinism/hash and cross-process/hash-seed focused groups. \newline
+\textbf{Evidence / finding:} Linux passed determinism/hash with 2 passed and 255 deselected, and cross-process/hash-seed with 3 passed and 254 deselected. Cross-version unordered-container differences were found for selected cases. \\
+
+R9 &
+\textbf{Requirement:} Code objects and format-version options must be tested. \newline
+\textbf{Tests / artifacts:} Code object / format-version tests and digest artifacts. \newline
+\textbf{Evidence / finding:} macOS/Windows code-object tests passed; Linux passed \texttt{tests/test\_format\_versions.py} with 4 passed and 1 skipped. \texttt{code\_object} remained the most sensitive digest case. \\
+
+R10 &
+\textbf{Requirement:} Linux should be included as a CPython version branch where available. \newline
+\textbf{Tests / artifacts:} Linux x86\_64 CPython 3.10--3.14 full pytest logs, focused logs, digest JSON files, run1/run2 comparison, and cross-version comparison outputs. \newline
+\textbf{Evidence / finding:} Linux results were 252 passed/5 skipped for Python 3.10--3.12, 255 passed/2 skipped for Python 3.13, and 258 passed for Python 3.14. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Artifact Schema and Execution Protocol}
+
+To make results comparable across teammates, each digest artifact records the \texttt{case\_id}, \texttt{status}, SHA-256 digest, byte length, exception type, platform, architecture, Python implementation, full Python version, and \texttt{marshal.version}. These fields align the same logical input across systems and versions while separating byte-level digest differences from behavior or exception differences.
+
+The execution protocol was standardized. Each teammate ran formatting/static checks, full pytest runs where available, focused pytest groups for the assignment risk categories, and digest collection/comparison. The digest catalog size should not be treated as the total test count: the 47 default records, or 49 with large cases included, are stable named cases for artifact comparison, while the broader pytest suite also includes focused tests, source-informed parameterized tests, and Hypothesis-generated examples.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\begin{longtable}{@{}L{0.24\linewidth}L{0.68\linewidth}@{}}
+\toprule
+\textbf{Artifact type} & \textbf{Purpose in the final evidence chain} \\
+\midrule
+
+Full pytest logs &
+Show that the complete test suite passes under each tested CPython version on macOS, Windows, and Linux. \\
+
+Focused-group logs &
+Show explicit coverage of teacher-specified risk categories, including float/complex values, recursive references, invalid input, hash determinism, fuzzing, and source-informed tests. \\
+
+Digest JSON files &
+Provide machine-readable SHA-256 evidence for the byte-identity oracle. They are the main evidence for same-version and cross-version marshal stability. \\
+
+Run1/run2 comparisons &
+Check whether repeated serialization under the same full Python version and platform produces identical digests. \\
+
+Cross-version comparisons &
+Identify which case IDs change across Python versions and separate expected format evolution from same-version nondeterminism. \\
+
+Static-check outputs &
+Support repository quality by showing formatting and linting status, although these are not part of the marshal behavioral oracle. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Cross-platform Execution Results}
+
+The same shared test suite and digest schema were used on macOS, Windows, and Linux. macOS and Windows ran the full CPython version matrix from Python 3.10 through Python 3.14. Linux was upgraded from earlier subset evidence to a Linux x86\_64 CPython 3.10--3.14 branch with full pytest results, focused groups, digest artifacts, same-version comparison, and cross-version comparison outputs.
+
+The final Linux artifact set includes full pytest logs for Python 3.10--3.14, focused-group logs on Python 3.13, five digest JSON files, a Linux 3.13 run1/run2 comparison with 47 common cases and no differences, ten pairwise cross-version comparison outputs, a digest-matrix summary, and static-check outputs.
+
+\subsection{CPython Version Matrix}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.12}
+
+\begin{longtable}{@{}L{0.18\linewidth}L{0.60\linewidth}L{0.17\linewidth}@{}}
+\toprule
+\textbf{Platform branch} & \textbf{Full pytest version matrix} & \textbf{Digest records} \\
+\midrule
+
+macOS 15.5 arm64 &
+3.10.19: 252 passed, 5 skipped; 3.11.12: 252 passed, 5 skipped; 3.12.12: 252 passed, 5 skipped; 3.13.5: 255 passed, 2 skipped; 3.14.2: 258 passed. &
+47 all ok per version \\
+
+Windows 11 AMD64 &
+3.10.20: 252 passed, 5 skipped; 3.11.15: 252 passed, 5 skipped; 3.12.13: 252 passed, 5 skipped; 3.13.13: 255 passed, 2 skipped; 3.14.5: 258 passed. &
+47 all ok per version \\
+
+Linux x86\_64 &
+3.10.19: 252 passed, 5 skipped; 3.11.14: 252 passed, 5 skipped; 3.12.12: 252 passed, 5 skipped; 3.13.9: 255 passed, 2 skipped; 3.14.0: 258 passed. &
+47 all ok per version \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Focused Test Groups}
+
+Focused groups were run to show traceability to the assignment's risk categories. These focused groups overlap and should not be added together as independent test totals.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.12}
+
+\begin{longtable}{@{}L{0.36\linewidth}L{0.30\linewidth}L{0.27\linewidth}@{}}
+\toprule
+\textbf{Focused group} & \textbf{macOS / Windows result} & \textbf{Linux result} \\
+\midrule
+
+Floating-point special values &
+106 passed, 151 deselected on both desktop branches &
+29 passed, 228 deselected \\
+
+Recursive/cyclic/reference structures &
+19 passed, 238 deselected on both desktop branches &
+13 passed, 244 deselected \\
+
+Empty/large collections &
+50 passed, 207 deselected on both desktop branches &
+29 passed, 228 deselected \\
+
+Invalid/unsupported inputs &
+22 passed, 235 deselected on both desktop branches &
+22 passed, 235 deselected \\
+
+Determinism/hash &
+56 passed, 201 deselected on both desktop branches &
+2 passed, 255 deselected \\
+
+Cross-process/hash-seed &
+50 passed, 207 deselected on both desktop branches &
+3 passed, 254 deselected \\
+
+Fuzzing/property-based &
+2 passed, 255 deselected on both desktop branches &
+2 passed \\
+
+Source-informed white-box &
+84 passed on both desktop branches &
+84 passed \\
+
+Code object / format version &
+13 passed, 1 skipped, 243 deselected on both desktop branches &
+4 passed, 1 skipped in \texttt{test\_format\_versions.py} \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+The focused group counts differ between branches because the local test selection and available test files changed slightly across handoff versions. They are therefore used as traceability evidence, not as additive totals.
+
+\subsection{Detailed Input-class Result Matrix}
+
+To make the test coverage explicit, we summarize each input class across the completed macOS, Windows, and Linux branches. The detailed byte-level differences are reported separately in Section 8.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\begin{longtable}{@{}L{0.18\linewidth}L{0.76\linewidth}@{}}
+\toprule
+\textbf{Input class} & \textbf{macOS / Windows / Linux result} \\
+\midrule
+
+Singletons &
+Covered in the CPython 3.10--3.14 matrix. Same-version digest stability and round-trip correctness were observed. \\
+
+Integers &
+Covered through equivalence partitions and boundary value cases, including small and large integer boundaries. No same-version instability was found. \\
+
+Float / complex &
+Covered by focused floating-point tests, including \texttt{NaN}, \texttt{Inf}, \texttt{-Inf}, negative zero, subnormal floats, and complex values where selected. Linux focused float/complex tests also passed. \\
+
+Text / binary &
+Covered for empty strings, ASCII, Unicode, bytes, bytearray, and memoryview where supported. No same-version instability was found. \\
+
+Containers &
+Covered for tuples, lists, dictionaries, sets, frozensets, nested containers, empty collections, and selected large cases. Same-version stability was observed; cross-version differences appeared for selected unordered string containers. \\
+
+Recursive / shared references &
+Covered by recursive and shared-reference tests. Reference tracking passed in the selected cases. \\
+
+Invalid / unsupported inputs &
+Covered by invalid byte-stream and unsupported-object tests. Expected failure behavior was observed. \\
+
+Code objects / format version &
+Covered by code-object and format-version tests. \texttt{code\_object} was identified as the most version-sensitive case. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Same-version Stability}
+
+Repeated same full-version/platform digest collection was stable on the tested branches. On macOS CPython 3.13.5 and Windows CPython 3.13.13, run1 and run2 each had 47 common cases and no digest or status differences. On Linux CPython 3.13.9, run1 and run2 also had 47 common cases and no digest or status differences. The include-large digest catalog produced 49 all-ok records on the desktop branches. We therefore report same-version stability as an observed result for this catalog, not as a proof for all possible object graphs.
+
+\section{Byte-level Differences Found}
+
+The most important result is that the suite found byte-level differences under selected conditions. These findings support the assignment motivation: \texttt{marshal} output must be evaluated at the byte level, not only by round-trip equality.
+
+\subsection{Summary of Digest Differences}
+
+\begingroup
+\normalsize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+
+\begin{longtable}{@{}L{0.34\linewidth}L{0.16\linewidth}L{0.45\linewidth}@{}}
+\toprule
+\textbf{Comparison} & \textbf{Different cases} & \textbf{Affected case IDs} \\
+\midrule
+
+macOS 3.10 vs macOS 3.11--3.14 &
+3 &
+\texttt{code\_object}, \texttt{set\_of\_strings}, \texttt{frozenset\_of\_strings}. \\
+
+Windows 3.10 vs Windows 3.11--3.14 &
+3 &
+\texttt{code\_object}, \texttt{set\_of\_strings}, \texttt{frozenset\_of\_strings}. \\
+
+Linux 3.10 vs Linux 3.11--3.14 &
+3 &
+\texttt{code\_object}, \texttt{set\_of\_strings}, \texttt{frozenset\_of\_strings}. \\
+
+Linux 3.11 vs Linux 3.12 &
+0 &
+No digest differences were observed in the shared 47-case catalog. \\
+
+Linux later-version selected pairs &
+1 &
+\texttt{code\_object}. This case remained the recurring Linux cross-version sensitive artifact. \\
+
+macOS 3.13.5 vs Windows 3.13.13 &
+1 of 47 &
+\texttt{code\_object}. This comparison is same-minor but not same-patch, not same-architecture, and not same-compiler. \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{Representative Digest Example}
+
+The following example shows one byte-level difference observed in the artifact comparisons. We include one full SHA-256 example to keep the report within the page limit.
+
+\begin{itemize}
+    \item \textbf{\texttt{code\_object}, macOS 3.13.5 arm64 vs Windows 3.13.13 AMD64.}
+    macOS CPython 3.13.5 arm64 produced digest
+    \seqsplit{84ea466c3d3db3cf53f89b65f45a7206ca8ed3a82ac64f641408ced7a85550bf}
+    with length 366. Windows CPython 3.13.13 AMD64 produced digest
+    \seqsplit{08c3336e09a9d4eaf3fe976f56d45da8b9d5f750028cfd1c9882c18cabdb94fc}
+    with length 182.
+\end{itemize}
+
+\subsection{Finding Interpretation}
+
+\textbf{Finding 1: code objects are sensitive.}
+The strongest finding is that \texttt{code\_object} is not a robust byte-identical artifact across the tested version/platform conditions. This is plausible because code objects encode interpreter-internal bytecode details, constants, flags, line-table data, and other implementation-dependent fields.
+
+\textbf{Finding 2: unordered string containers can differ across versions.}
+The cases \texttt{set\_of\_strings} and \texttt{frozenset\_of\_strings} showed cross-version digest differences in the desktop and Linux matrices. This confirms that logical equality is not enough for marshal stability testing. The test demonstrates byte-level sensitivity, not a proven root cause.
+
+\textbf{Finding 3: same-minor cross-platform comparison still exposed a difference.}
+The macOS-vs-Windows 3.13 comparison is useful but must be interpreted carefully. It compares the same Python minor version, but not the same patch version, architecture, or compiler. Therefore, the \texttt{code\_object} difference is reported as a code-object portability finding, not as proof of an OS-only CPython bug.
+
+\section{Interpretation}
+
+The result pattern is more informative than a simple pass/fail answer. Ordinary supported values, including integers, floats, bytes, nested containers, and recursive references, were stable in same-version repeated runs for the tested catalog. At the same time, high-risk cases revealed byte-level differences under cross-version and version/platform conditions. This is exactly why the assignment defines equality as hash-identical output.
+
+We do not label cross-version digest changes as CPython bugs because \texttt{marshal} does not promise cross-version format stability. However, they are important findings because they identify the circumstances where a user would not get hash-identical output. The suite answers both sides of the question: it identifies a large stable region and also identifies concrete sensitive regions.
+
+\section{Practical Answer to the Assignment Question}
+
+The practical answer is conditional. Under the same full CPython version and the same platform, the tested catalog was stable: repeated runs produced identical digest records. Across Python versions and platform/runtime conditions, byte identity should not be assumed. Ordinary primitive values, numeric values, text/binary values, and most containers were stable in the tested same-version setting, but \texttt{code\_object} and selected unordered string containers were sensitive in cross-version comparisons. This makes \texttt{marshal} suitable for CPython's internal bytecode use, but unsuitable as a general long-term or cross-version serialization format when hash-identical output is required.
+
+\section{Team Contribution and Remaining Artifacts}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.10}
+
+\begin{longtable}{@{}L{0.16\linewidth}L{0.70\linewidth}L{0.10\linewidth}@{}}
+\toprule
+\textbf{Member} & \textbf{Main contribution} & \textbf{Status} \\
+\midrule
+
+Zhu Jin &
+Windows CPython 3.10--3.14 testing, focused black-box groups, digest collection, same-version and cross-version comparison, source-informed white-box tests, and Windows findings in the report. &
+Complete \\
+
+Li Haosen &
+macOS CPython 3.10--3.14 testing, macOS digest collection, same-version and cross-version comparison, macOS-vs-Windows interpretation, and report contribution. &
+Complete \\
+
+Zhang Hengwei &
+Linux CPython 3.10--3.14 full pytest execution, Linux focused groups, Linux digest artifacts, same-version and cross-version comparison outputs, Linux environment setup, code contribution, and Linux-related report discussion. &
+Complete \\
+
+Quan Ye &
+Code implementation and test infrastructure, including case-catalog support, helper functions, digest schema, collector behavior, pytest compatibility, and reproducibility support. &
+Complete \\
+
+Li Yunzhe &
+Presentation materials and summary of the testing objective, black-box and white-box strategy, traceability matrix, findings, limitations, and conclusions. &
+Complete \\
+
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Limitations}
+
+The suite is broad but not exhaustive. It cannot prove determinism for every object graph, compiler option, memory condition, or platform. Fuzzing is bounded by generator design and runtime budget; large collections are bounded cases rather than memory-limit stress tests. The white-box work is source-informed and does not claim complete all-definitions or all-uses coverage.
+
+There are also threats to validity in cross-platform interpretation. Even with macOS, Windows, and Linux evidence, some comparisons mix patch versions, architectures, compiler toolchains, and build configurations. Therefore, cross-platform digest differences are reported as portability-relevant findings rather than isolated operating-system defects. This is especially important for \texttt{code\_object}, because code objects encode interpreter-internal representation details.
+
+The digest catalog is intentionally stable and named, which makes cross-platform comparison reproducible, but it also means that not every fuzzed value is stored as a digest artifact. Fuzzing increases behavioral input diversity during test execution, while the digest catalog provides a controlled comparison set. MicroPython, if used in future work, must remain separate because it is not a drop-in implementation of CPython's complete \texttt{marshal} behavior.
+
+\section{Conclusion}
+
+For the tested catalog, \texttt{marshal} was stable under repeated execution in the same full CPython version and platform: macOS, Windows, and Linux repeated/digest evidence showed no same-version digest instability in the shared catalog. However, byte-identical stability did not hold across selected version/platform conditions. The main sensitive cases were \texttt{code\_object}, \texttt{set\_of\_strings}, and \texttt{frozenset\_of\_strings}. The \texttt{code\_object} finding is especially important because it is tied to interpreter-internal bytecode representation, while the unordered-container findings show why logical equality is not enough for this assignment.
+
+Overall, the suite answers both sides of the question: ordinary tested inputs were stable in same-version repeated runs, but selected inputs were not stable across versions or platform/runtime conditions. The full source code, test commands, digest artifacts, and reproduction instructions are available in the public repository linked on the title page.
+
+\end{document}

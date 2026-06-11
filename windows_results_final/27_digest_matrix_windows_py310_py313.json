@@ -1,0 +1,272 @@
+{
+  "artifacts": [
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.10",
+        "python_version": "3.10.20 (main, Jun  2 2026, 22:31:55) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "path": "results/digests-windows-py310.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.11",
+        "python_version": "3.11.15 (main, Jun  2 2026, 22:29:49) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "path": "results/digests-windows-py311.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.12",
+        "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "path": "results/digests-windows-py312.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.13",
+        "python_version": "3.13.13 (main, Jun  2 2026, 22:38:31) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "path": "results/digests-windows-py313.json"
+    }
+  ],
+  "pairwise_comparisons": [
+    {
+      "baseline": "results/digests-windows-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.10",
+        "python_version": "3.10.20 (main, Jun  2 2026, 22:31:55) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py311.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.11",
+        "python_version": "3.11.15 (main, Jun  2 2026, 22:29:49) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "41ba0a972f3976065a2b1312bdfb219bd742c10b4a104b833ae25b20e3ff9fa7",
+          "candidate": "25c2d8fc9d6f8709f238cf1b117b0e51ffb1b169b816b1b4cdadcc431bfa5e49",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "71fd40da74d6bf4b35bf2c6e4378893c13c46e53ee344844d90590e0f7c74543",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "4162bba5ce5a93a95397e56c3a818ebb77a197a29ea87df01961d747ab42e620",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-windows-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.10",
+        "python_version": "3.10.20 (main, Jun  2 2026, 22:31:55) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py312.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.12",
+        "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "41ba0a972f3976065a2b1312bdfb219bd742c10b4a104b833ae25b20e3ff9fa7",
+          "candidate": "25c2d8fc9d6f8709f238cf1b117b0e51ffb1b169b816b1b4cdadcc431bfa5e49",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "71fd40da74d6bf4b35bf2c6e4378893c13c46e53ee344844d90590e0f7c74543",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "4162bba5ce5a93a95397e56c3a818ebb77a197a29ea87df01961d747ab42e620",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-windows-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.10",
+        "python_version": "3.10.20 (main, Jun  2 2026, 22:31:55) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.13",
+        "python_version": "3.13.13 (main, Jun  2 2026, 22:38:31) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "41ba0a972f3976065a2b1312bdfb219bd742c10b4a104b833ae25b20e3ff9fa7",
+          "candidate": "08c3336e09a9d4eaf3fe976f56d45da8b9d5f750028cfd1c9882c18cabdb94fc",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "71fd40da74d6bf4b35bf2c6e4378893c13c46e53ee344844d90590e0f7c74543",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "4162bba5ce5a93a95397e56c3a818ebb77a197a29ea87df01961d747ab42e620",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-windows-py311.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.11",
+        "python_version": "3.11.15 (main, Jun  2 2026, 22:29:49) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py312.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.12",
+        "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest match",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-windows-py311.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-10-10.0.26200-SP0",
+        "python_minor": "3.11",
+        "python_version": "3.11.15 (main, Jun  2 2026, 22:29:49) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.13",
+        "python_version": "3.13.13 (main, Jun  2 2026, 22:38:31) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "25c2d8fc9d6f8709f238cf1b117b0e51ffb1b169b816b1b4cdadcc431bfa5e49",
+          "candidate": "08c3336e09a9d4eaf3fe976f56d45da8b9d5f750028cfd1c9882c18cabdb94fc",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-windows-py312.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.12",
+        "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "candidate": "results/digests-windows-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "AMD64",
+        "marshal_version": 4,
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python_minor": "3.13",
+        "python_version": "3.13.13 (main, Jun  2 2026, 22:38:31) [MSC v.1944 64 bit (AMD64)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "25c2d8fc9d6f8709f238cf1b117b0e51ffb1b169b816b1b4cdadcc431bfa5e49",
+          "candidate": "08c3336e09a9d4eaf3fe976f56d45da8b9d5f750028cfd1c9882c18cabdb94fc",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    }
+  ]
+}

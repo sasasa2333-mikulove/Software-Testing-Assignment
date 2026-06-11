@@ -1,0 +1,425 @@
+{
+  "artifacts": [
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.10",
+        "python_version": "3.10.19 (main, Jan 14 2026, 23:38:29) [Clang 21.1.4 ]"
+      },
+      "path": "results/digests-macos-py310.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.11",
+        "python_version": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]"
+      },
+      "path": "results/digests-macos-py311.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.12",
+        "python_version": "3.12.12 (main, Jan 14 2026, 23:36:32) [Clang 21.1.4 ]"
+      },
+      "path": "results/digests-macos-py312.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.13",
+        "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+      },
+      "path": "results/digests-macos-py313.json"
+    },
+    {
+      "metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 5,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.14",
+        "python_version": "3.14.2 (main, Jan 14 2026, 23:37:46) [Clang 21.1.4 ]"
+      },
+      "path": "results/digests-macos-py314.json"
+    }
+  ],
+  "pairwise_comparisons": [
+    {
+      "baseline": "results/digests-macos-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.10",
+        "python_version": "3.10.19 (main, Jan 14 2026, 23:38:29) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py311.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.11",
+        "python_version": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "f305363c7f4299d610502c3ba6588f7ffb573431106aae0b99e008ce893799e1",
+          "candidate": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "1a4478734d5d3fa4e88a84c1e4d21f1e70afec3a4139ded086677a351e3c276a",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "cae3b3f92fb2f62c2c0a3a6ee9c616a73a4be9929573365dc307424ecb2e1b5b",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.10",
+        "python_version": "3.10.19 (main, Jan 14 2026, 23:38:29) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py312.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.12",
+        "python_version": "3.12.12 (main, Jan 14 2026, 23:36:32) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "f305363c7f4299d610502c3ba6588f7ffb573431106aae0b99e008ce893799e1",
+          "candidate": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "1a4478734d5d3fa4e88a84c1e4d21f1e70afec3a4139ded086677a351e3c276a",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "cae3b3f92fb2f62c2c0a3a6ee9c616a73a4be9929573365dc307424ecb2e1b5b",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.10",
+        "python_version": "3.10.19 (main, Jan 14 2026, 23:38:29) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.13",
+        "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "f305363c7f4299d610502c3ba6588f7ffb573431106aae0b99e008ce893799e1",
+          "candidate": "84ea466c3d3db3cf53f89b65f45a7206ca8ed3a82ac64f641408ced7a85550bf",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "1a4478734d5d3fa4e88a84c1e4d21f1e70afec3a4139ded086677a351e3c276a",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "cae3b3f92fb2f62c2c0a3a6ee9c616a73a4be9929573365dc307424ecb2e1b5b",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py310.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.10",
+        "python_version": "3.10.19 (main, Jan 14 2026, 23:38:29) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py314.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 5,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.14",
+        "python_version": "3.14.2 (main, Jan 14 2026, 23:37:46) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "f305363c7f4299d610502c3ba6588f7ffb573431106aae0b99e008ce893799e1",
+          "candidate": "3e4c68e8fa0bdaf84955c51946465952a791702bb6c68d2c78606d16194cac33",
+          "case_id": "code_object"
+        },
+        {
+          "baseline": "1a4478734d5d3fa4e88a84c1e4d21f1e70afec3a4139ded086677a351e3c276a",
+          "candidate": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+          "case_id": "frozenset_of_strings"
+        },
+        {
+          "baseline": "cae3b3f92fb2f62c2c0a3a6ee9c616a73a4be9929573365dc307424ecb2e1b5b",
+          "candidate": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+          "case_id": "set_of_strings"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py311.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.11",
+        "python_version": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]"
+      },
+      "candidate": "results/digests-macos-py312.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.12",
+        "python_version": "3.12.12 (main, Jan 14 2026, 23:36:32) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest match",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py311.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.11",
+        "python_version": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]"
+      },
+      "candidate": "results/digests-macos-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.13",
+        "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "candidate": "84ea466c3d3db3cf53f89b65f45a7206ca8ed3a82ac64f641408ced7a85550bf",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py311.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.11",
+        "python_version": "3.11.12 (main, Apr  8 2025, 14:15:29) [Clang 17.0.0 (clang-1700.0.13.3)]"
+      },
+      "candidate": "results/digests-macos-py314.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 5,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.14",
+        "python_version": "3.14.2 (main, Jan 14 2026, 23:37:46) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "candidate": "3e4c68e8fa0bdaf84955c51946465952a791702bb6c68d2c78606d16194cac33",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py312.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.12",
+        "python_version": "3.12.12 (main, Jan 14 2026, 23:36:32) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py313.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.13",
+        "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "candidate": "84ea466c3d3db3cf53f89b65f45a7206ca8ed3a82ac64f641408ced7a85550bf",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py312.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit",
+        "python_minor": "3.12",
+        "python_version": "3.12.12 (main, Jan 14 2026, 23:36:32) [Clang 21.1.4 ]"
+      },
+      "candidate": "results/digests-macos-py314.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 5,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.14",
+        "python_version": "3.14.2 (main, Jan 14 2026, 23:37:46) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "3d71b6b586d6259773613e5e782e82b22793c8c2f1d1180c04de4966ebea4caa",
+          "candidate": "3e4c68e8fa0bdaf84955c51946465952a791702bb6c68d2c78606d16194cac33",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    },
+    {
+      "baseline": "results/digests-macos-py313.json",
+      "baseline_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 4,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.13",
+        "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+      },
+      "candidate": "results/digests-macos-py314.json",
+      "candidate_metadata": {
+        "implementation": "CPython",
+        "machine": "arm64",
+        "marshal_version": 5,
+        "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+        "python_minor": "3.14",
+        "python_version": "3.14.2 (main, Jan 14 2026, 23:37:46) [Clang 21.1.4 ]"
+      },
+      "common_cases": 47,
+      "different_cases": [
+        {
+          "baseline": "84ea466c3d3db3cf53f89b65f45a7206ca8ed3a82ac64f641408ced7a85550bf",
+          "candidate": "3e4c68e8fa0bdaf84955c51946465952a791702bb6c68d2c78606d16194cac33",
+          "case_id": "code_object"
+        }
+      ],
+      "different_status_cases": [],
+      "extra_in_candidate": [],
+      "interpretation": "cross-version digest difference; record as format evolution",
+      "missing_in_candidate": [],
+      "same_python_minor": false
+    }
+  ]
+}

@@ -1,0 +1,786 @@
+{
+  "records": [
+    {
+      "case_id": "none",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 1,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "supported singleton values are serializable",
+      "sha256": "8ce86a6ae65d3692e7305e2c58ac62eebd97d3d943e093f577da25c36988246b",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "bool_true",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 1,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "boolean values are serializable",
+      "sha256": "e632b7095b0bf32c260fa4c539e9fd7b852d0de454e9be26f24d0d6f91d069d3",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "bool_false",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 1,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "boolean values are serializable",
+      "sha256": "f67ab10ad4e4c53121b6a5fe4da9c10ddee905b978d3788d2723d7bfacbe28a9",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "ellipsis",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 1,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "supported singleton values are serializable",
+      "sha256": "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "stop_iteration",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 1,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "supported singleton values are serializable",
+      "sha256": "8de0b3c47f112c59745f717a626932264c422a7563954872e237b223af4ad643",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "int_zero",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "integer boundary values are serializable",
+      "sha256": "e8ebd827d1f36d7cfa5e5220610aa6370284d1589989363f48ac40166362d449",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "int_negative_one",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "integer boundary values are serializable",
+      "sha256": "72aea108d59af9a3db0854601259c9d9a62dce69f656f4a3f4e451500fb85a1f",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "int_15bit_edge",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "15-bit integer boundary remains stable",
+      "sha256": "f804c5c1f57fde23f48897e0e7db403c09e2b5336d7b5199d1dfbf69ae6f93e5",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_15bit_overflow",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "integer encoding boundary remains stable",
+      "sha256": "9ce92f0a982d362f92aa5c527738a6cba69397ec7eff0fc776e9e08af455499c",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_32bit_edge",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "32-bit integer boundary remains stable",
+      "sha256": "e516a8460a50e97422bd42df9be24ed73081da8f9758f196c6ce7569e5b4850f",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_32bit_overflow",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 11,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "long integer path remains stable",
+      "sha256": "70f286d27bc1e55c830066343a8fe2489d76660e68b3a62cd943ad76d574aa4a",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_negative_32bit_edge",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "negative 32-bit integer boundary remains stable",
+      "sha256": "00f37a5857c5b8d261c8f01324a48522771c7d9a1e5bc52b3c074c9162009dca",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_63bit_edge",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 15,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "63-bit integer boundary remains stable",
+      "sha256": "7da212917f2e476cf4865db2c13815055c744e353a553464833b8c812de25fcf",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_63bit_overflow",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 15,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "large integer encoding boundary remains stable",
+      "sha256": "95d4ad4027f527c14a76f13cf23b94c45272e82a4be8407bbab87cbc83522728",
+      "status": "ok",
+      "strategies": [
+        "BVA",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "int_large",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 19,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "large arbitrary precision integers are serializable",
+      "sha256": "ef5ae3311c67084a687cceea33536a5ebce766bb005b082f80848343d8937648",
+      "status": "ok",
+      "strategies": [
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_zero",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "floating-point zero is byte-stable",
+      "sha256": "a7b2474c2b69133fff4c0515276a03bbf9d1c38d1d1f8c08bd5db478181398d6",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_negative_zero",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "floating-point sign edge cases are byte-stable",
+      "sha256": "61d36befa08b84a6b58ddc977ad118100fb1e244e7be671d6f1e027ba585a163",
+      "status": "ok",
+      "strategies": [
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_positive",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "ordinary positive floats are serializable",
+      "sha256": "6026796fb71c5d7591258d4d3d481d0f46f3d683b1d70d9c264d8cdd899f68d9",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "float_negative",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "ordinary negative floats are serializable",
+      "sha256": "1a52bb3e2a25312d4f8e106df294cfee6c00d228ef51c00738249ba87a120c10",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "float_subnormal",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "subnormal floats are byte-stable",
+      "sha256": "caec16c6b6f9a5b48ce9c9a9afa476b7af4edcddab6948069514f2b25064a45f",
+      "status": "ok",
+      "strategies": [
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_inf",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "floating-point special values are serializable",
+      "sha256": "a723a76079a60280dcdb2d7984a2adf4a0874e31b9518b30dfc0cfd9c3b53c54",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_negative_inf",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "negative infinity is serializable",
+      "sha256": "860d99b42a646c71e28db195c6fdd2478e70455cb540732d1204ea023e3fb0cf",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "float_nan",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "NaN values are serializable and repeatable",
+      "sha256": "c0071368d2b0e5cb29b0995db32ea00ef9a3c215871dbabf0d4146930d1c7196",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "complex_nan_inf",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 17,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "complex numbers follow float special-value behavior",
+      "sha256": "171aa25e5d7c6dc85eb58e123ab388ad5c93fe604270e0118c94d1be9fb45bbb",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "empty_str",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 2,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty strings are serializable",
+      "sha256": "153d812467db095632c6583da7f82cf7ad1e3f9ef18b6358c10f28d2804822f4",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "ascii_str",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 9,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "ASCII strings are serializable",
+      "sha256": "31ae682056a80bc06e19cfe182457cd58134a0bacb68c2e3a6c25b47bf39d593",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "unicode_str",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 37,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "unicode strings are serializable",
+      "sha256": "aaa59afa0044ce0041f9a5e349fc459f34ae9456603276adbc7d5e6be36893a0",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "empty_bytes",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty bytes are serializable",
+      "sha256": "1e39f9576a47375992ed7b53b49a4fe68e1622c87227165ee0246d3c345996f1",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "bytes_with_null",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 12,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "bytes containing NUL bytes are serializable",
+      "sha256": "3ec42ec35cc73a2f67d9b26583660989d8fff56b981d1ebadc4b0eb4a56e2977",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "bytearray",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 12,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "bytearrays are serializable",
+      "sha256": "3ec42ec35cc73a2f67d9b26583660989d8fff56b981d1ebadc4b0eb4a56e2977",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "memoryview",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 8,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "buffer protocol inputs serialize through the bytes path",
+      "sha256": "54fbc4701c235e1d489632b9680e438d00e614228886cc1116d2f6dcaa4724fc",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "empty_tuple",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 2,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty immutable containers are serializable",
+      "sha256": "86c11f10c038a75279e64a09cbc5cacb478a9af27d1b5cce1d1b1cc7e23a1b81",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "nested_tuple",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 23,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "nested immutable containers are serializable",
+      "sha256": "e52e9e696a33a77f9f29829eca96f7dcf81ad99998b1b82237bc0f6c60c5f55e",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "empty_list",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty mutable containers are serializable",
+      "sha256": "cd13cd2473c97737511c66500c332fdf9ad78c5f6e8d4eb4fea992bb63f42055",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "nested_list",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 29,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "nested mutable containers are serializable",
+      "sha256": "107bdb3dbcb1d31e285a401007f37b8b4ac348b3c5c64d1d22b2f9e4e806c110",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "recursive_list",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 10,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "recursive lists are handled by marshal reference tracking",
+      "sha256": "d77105626a6c7416c78bc6bb583d35560e158f58dac24718da9cf23f06e2fe85",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "empty_dict",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 2,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty dictionaries are serializable",
+      "sha256": "fa433c89e61178902327da13af7dc0b09aede94a362de11626c21700a658c353",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "nested_dict",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 43,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "nested dictionaries are serializable",
+      "sha256": "1ad84926788df2dd9f38d3f14ff03de18fe129ecc46d9624019ffd9c757c673a",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "recursive_dict",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 13,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "recursive dictionaries are handled by marshal reference tracking",
+      "sha256": "ba5fe04b4870548bdc6cd91517781a0feb8150ef0ed35966a575fb1ef621bd55",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "shared_child_list",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 23,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "shared child containers are handled by marshal reference tracking",
+      "sha256": "c7654eaedd4bcad3f99db5de146e3e8993593c1afca02f026215089033ecf427",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "nested_shared_graph",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 58,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "nested shared object graphs preserve shared references",
+      "sha256": "e255d7288d1625f01e51060e1dbc1f158ed20531c342869009e0e89757113e9a",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    },
+    {
+      "case_id": "empty_set",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty sets are serializable",
+      "sha256": "995046494f919338259e00eb000e87957890be5cb4e30be304e6646e1426578b",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "set_of_ints",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 20,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "sets are serializable",
+      "sha256": "cddf0b000e7d5e4d9d7ffbbf3ecc0f056e311652a56278e911321cfc9c588ec9",
+      "status": "ok",
+      "strategies": [
+        "EP"
+      ]
+    },
+    {
+      "case_id": "empty_frozenset",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 5,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "empty frozensets are serializable",
+      "sha256": "4c237f2998e18f5c62047214de243bf62daa715906dfc6776b948ec9ec2fe2bd",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "BVA"
+      ]
+    },
+    {
+      "case_id": "set_of_strings",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 25,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "unordered string sets are checked across hash seeds",
+      "sha256": "a54f651a407ef9585d9ca6ed48b77c5e20aef295f31ac7a168a551cf5ca73c95",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "stability"
+      ]
+    },
+    {
+      "case_id": "frozenset_of_strings",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 25,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "unordered string frozensets are checked across hash seeds",
+      "sha256": "2357b680e1af2b7681c667ac0194a4683dcadb5239026d7f7ba89273d18a88d4",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "stability"
+      ]
+    },
+    {
+      "case_id": "code_object",
+      "exception_type": null,
+      "implementation": "CPython",
+      "length": 182,
+      "machine": "AMD64",
+      "marshal_version": 4,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python_version": "3.12.13 (main, Jun  2 2026, 22:47:20) [MSC v.1944 64 bit (AMD64)]",
+      "requirement": "code objects are serializable when allow_code permits them",
+      "sha256": "25c2d8fc9d6f8709f238cf1b117b0e51ffb1b169b816b1b4cdadcc431bfa5e49",
+      "status": "ok",
+      "strategies": [
+        "EP",
+        "white-box"
+      ]
+    }
+  ]
+}

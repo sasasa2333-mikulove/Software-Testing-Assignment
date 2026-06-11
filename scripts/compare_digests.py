@@ -19,6 +19,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Exit non-zero when any common case has a different digest.",
     )
+    parser.add_argument(
+        "--expect-same-python-minor",
+        action="store_true",
+        help=(
+            "Exit non-zero unless both artifacts use the same Python major.minor. "
+            "Use this for cross-OS comparisons, not cross-version observations."
+        ),
+    )
     return parser
 
 
@@ -26,7 +34,16 @@ def main() -> int:
     args = build_parser().parse_args()
     result = compare_artifacts(args.baseline, args.candidate)
     print(json.dumps(result, indent=2, sort_keys=True))
-    return int(args.strict and bool(result["different_cases"]))
+    has_difference = bool(
+        result["different_cases"]
+        or result["different_status_cases"]
+        or result["missing_in_candidate"]
+        or result["extra_in_candidate"]
+    )
+    wrong_python_minor = (
+        args.expect_same_python_minor and not result["same_python_minor"]
+    )
+    return int(wrong_python_minor or (args.strict and has_difference))
 
 
 if __name__ == "__main__":

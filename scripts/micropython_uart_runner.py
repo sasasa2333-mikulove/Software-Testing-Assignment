@@ -21,7 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--script",
         type=Path,
-        default=Path("hardware/micropython/marshal_subset_test.py"),
+        default=Path("hardware/portable_marshal_equivalence.py"),
         help="MicroPython script to run on the board.",
     )
     parser.add_argument(

@@ -36,6 +36,16 @@ def _recursive_dict() -> dict[str, Any]:
     return value
 
 
+def _shared_child_list() -> list[Any]:
+    child: list[Any] = ["shared"]
+    return [child, child]
+
+
+def _nested_shared_graph() -> dict[str, list[Any]]:
+    child = {"leaf": [1, 2, 3]}
+    return {"left": [child], "right": [child]}
+
+
 def sample_function(value: int = 3) -> int:
     return value + 1
 
@@ -53,6 +63,12 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
         MarshalCase(
             "bool_true",
             True,
+            ("EP",),
+            "boolean values are serializable",
+        ),
+        MarshalCase(
+            "bool_false",
+            False,
             ("EP",),
             "boolean values are serializable",
         ),
@@ -81,6 +97,18 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             "integer boundary values are serializable",
         ),
         MarshalCase(
+            "int_15bit_edge",
+            2**15 - 1,
+            ("BVA", "white-box"),
+            "15-bit integer boundary remains stable",
+        ),
+        MarshalCase(
+            "int_15bit_overflow",
+            2**15,
+            ("BVA", "white-box"),
+            "integer encoding boundary remains stable",
+        ),
+        MarshalCase(
             "int_32bit_edge",
             2**31 - 1,
             ("BVA", "white-box"),
@@ -93,16 +121,52 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             "long integer path remains stable",
         ),
         MarshalCase(
+            "int_negative_32bit_edge",
+            -(2**31),
+            ("BVA", "white-box"),
+            "negative 32-bit integer boundary remains stable",
+        ),
+        MarshalCase(
+            "int_63bit_edge",
+            2**63 - 1,
+            ("BVA", "white-box"),
+            "63-bit integer boundary remains stable",
+        ),
+        MarshalCase(
+            "int_63bit_overflow",
+            2**63,
+            ("BVA", "white-box"),
+            "large integer encoding boundary remains stable",
+        ),
+        MarshalCase(
             "int_large",
             2**100 + 12345,
             ("BVA",),
             "large arbitrary precision integers are serializable",
         ),
         MarshalCase(
+            "float_zero",
+            0.0,
+            ("EP", "BVA"),
+            "floating-point zero is byte-stable",
+        ),
+        MarshalCase(
             "float_negative_zero",
             -0.0,
             ("BVA",),
             "floating-point sign edge cases are byte-stable",
+        ),
+        MarshalCase(
+            "float_positive",
+            1.5,
+            ("EP",),
+            "ordinary positive floats are serializable",
+        ),
+        MarshalCase(
+            "float_negative",
+            -2.25,
+            ("EP",),
+            "ordinary negative floats are serializable",
         ),
         MarshalCase(
             "float_subnormal",
@@ -115,6 +179,12 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             float("inf"),
             ("EP", "BVA"),
             "floating-point special values are serializable",
+        ),
+        MarshalCase(
+            "float_negative_inf",
+            float("-inf"),
+            ("EP", "BVA"),
+            "negative infinity is serializable",
         ),
         MarshalCase(
             "float_nan",
@@ -136,6 +206,12 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             "empty strings are serializable",
         ),
         MarshalCase(
+            "ascii_str",
+            "marshal",
+            ("EP",),
+            "ASCII strings are serializable",
+        ),
+        MarshalCase(
             "unicode_str",
             "marshal stability: åäö 中文",
             ("EP",),
@@ -146,6 +222,12 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             b"",
             ("EP", "BVA"),
             "empty bytes are serializable",
+        ),
+        MarshalCase(
+            "bytes_with_null",
+            b"abc\x00def",
+            ("EP", "BVA"),
+            "bytes containing NUL bytes are serializable",
         ),
         MarshalCase(
             "bytearray",
@@ -211,10 +293,36 @@ def supported_cases(include_large: bool = False) -> list[MarshalCase]:
             tags=frozenset({"recursive"}),
         ),
         MarshalCase(
+            "shared_child_list",
+            _shared_child_list(),
+            ("EP", "white-box"),
+            "shared child containers are handled by marshal reference tracking",
+            tags=frozenset({"shared-reference"}),
+        ),
+        MarshalCase(
+            "nested_shared_graph",
+            _nested_shared_graph(),
+            ("EP", "white-box"),
+            "nested shared object graphs preserve shared references",
+            tags=frozenset({"shared-reference"}),
+        ),
+        MarshalCase(
+            "empty_set",
+            set(),
+            ("EP", "BVA"),
+            "empty sets are serializable",
+        ),
+        MarshalCase(
             "set_of_ints",
             {3, 1, 2},
             ("EP",),
             "sets are serializable",
+        ),
+        MarshalCase(
+            "empty_frozenset",
+            frozenset(),
+            ("EP", "BVA"),
+            "empty frozensets are serializable",
         ),
         MarshalCase(
             "set_of_strings",
@@ -276,6 +384,20 @@ def unsupported_cases() -> list[MarshalCase]:
             object(),
             ("EP", "negative"),
             "arbitrary object instances are unsupported",
+            expect_roundtrip=False,
+        ),
+        MarshalCase(
+            "nested_unsupported_list",
+            [object()],
+            ("EP", "negative"),
+            "unsupported values nested in lists are rejected",
+            expect_roundtrip=False,
+        ),
+        MarshalCase(
+            "nested_unsupported_dict",
+            {"unsupported": object()},
+            ("EP", "negative"),
+            "unsupported values nested in dictionaries are rejected",
             expect_roundtrip=False,
         ),
     ]

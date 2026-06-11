@@ -1,0 +1,26 @@
+{
+  "baseline": "linux_results_final/digests-linux-py311.json",
+  "baseline_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.11",
+    "python_version": "3.11.14 (main, Oct 14 2025, 21:26:53) [Clang 20.1.4 ]"
+  },
+  "candidate": "linux_results_final/digests-linux-py312.json",
+  "candidate_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.12",
+    "python_version": "3.12.12 (main, Oct 14 2025, 21:25:31) [Clang 20.1.4 ]"
+  },
+  "common_cases": 47,
+  "different_cases": [],
+  "different_status_cases": [],
+  "extra_in_candidate": [],
+  "missing_in_candidate": [],
+  "same_python_minor": false
+}

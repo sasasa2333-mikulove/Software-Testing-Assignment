@@ -1,0 +1,26 @@
+{
+  "baseline": "results/digests-macos-py313-run1.json",
+  "baseline_metadata": {
+    "implementation": "CPython",
+    "machine": "arm64",
+    "marshal_version": 4,
+    "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+    "python_minor": "3.13",
+    "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+  },
+  "candidate": "results/digests-macos-py313-run2.json",
+  "candidate_metadata": {
+    "implementation": "CPython",
+    "machine": "arm64",
+    "marshal_version": 4,
+    "platform": "macOS-15.5-arm64-arm-64bit-Mach-O",
+    "python_minor": "3.13",
+    "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]"
+  },
+  "common_cases": 47,
+  "different_cases": [],
+  "different_status_cases": [],
+  "extra_in_candidate": [],
+  "missing_in_candidate": [],
+  "same_python_minor": true
+}

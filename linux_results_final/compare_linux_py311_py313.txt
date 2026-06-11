@@ -1,0 +1,32 @@
+{
+  "baseline": "linux_results_final/digests-linux-py311.json",
+  "baseline_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.11",
+    "python_version": "3.11.14 (main, Oct 14 2025, 21:26:53) [Clang 20.1.4 ]"
+  },
+  "candidate": "linux_results_final/digests-linux-py313.json",
+  "candidate_metadata": {
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "marshal_version": 4,
+    "platform": "Linux-6.17.9-76061709-generic-x86_64-with-glibc2.35",
+    "python_minor": "3.13",
+    "python_version": "3.13.9 (main, Oct 14 2025, 21:29:44) [Clang 20.1.4 ]"
+  },
+  "common_cases": 47,
+  "different_cases": [
+    {
+      "baseline": "8969e2f6588dfbb92a9ceacbc6d202079466f83e85f97685032f8032254e5d13",
+      "candidate": "15f6c24b167aae45acfd2bf6a7b7741255c6ba548367ad8a3e30b11062d87251",
+      "case_id": "code_object"
+    }
+  ],
+  "different_status_cases": [],
+  "extra_in_candidate": [],
+  "missing_in_candidate": [],
+  "same_python_minor": false
+}

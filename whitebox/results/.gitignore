@@ -1,2 +1,5 @@
 *
 !.gitignore
+!assignment_whitebox_driver.json
+!assignment_hash_seed_observations.json
+!assignment_gcov_summary.json

@@ -35,3 +35,70 @@ def test_large_cases_are_opt_in() -> None:
     assert "large_bytes" not in default_ids
     assert "large_list" not in default_ids
     assert {"large_bytes", "large_list"} <= large_ids
+
+
+def test_supported_cases_cover_planned_common_catalog() -> None:
+    case_ids = {case.case_id for case in supported_cases(include_large=True)}
+
+    assert {
+        "none",
+        "bool_true",
+        "bool_false",
+        "ellipsis",
+        "stop_iteration",
+        "int_zero",
+        "int_negative_one",
+        "int_15bit_edge",
+        "int_15bit_overflow",
+        "int_32bit_edge",
+        "int_32bit_overflow",
+        "int_negative_32bit_edge",
+        "int_63bit_edge",
+        "int_63bit_overflow",
+        "int_large",
+        "float_zero",
+        "float_negative_zero",
+        "float_positive",
+        "float_negative",
+        "float_inf",
+        "float_negative_inf",
+        "float_nan",
+        "float_subnormal",
+        "complex_nan_inf",
+        "empty_str",
+        "ascii_str",
+        "unicode_str",
+        "empty_bytes",
+        "bytes_with_null",
+        "bytearray",
+        "memoryview",
+        "empty_tuple",
+        "nested_tuple",
+        "empty_list",
+        "nested_list",
+        "empty_dict",
+        "nested_dict",
+        "empty_set",
+        "set_of_ints",
+        "set_of_strings",
+        "empty_frozenset",
+        "frozenset_of_strings",
+        "recursive_list",
+        "recursive_dict",
+        "shared_child_list",
+        "nested_shared_graph",
+        "code_object",
+        "large_bytes",
+        "large_list",
+    } <= case_ids
+
+
+def test_unsupported_cases_cover_planned_negative_catalog() -> None:
+    case_ids = {case.case_id for case in unsupported_cases()}
+
+    assert {
+        "function_object",
+        "plain_object",
+        "nested_unsupported_list",
+        "nested_unsupported_dict",
+    } <= case_ids
