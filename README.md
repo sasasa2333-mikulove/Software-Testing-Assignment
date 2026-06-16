@@ -14,7 +14,3 @@ uv run marshal-stability --output results/local.json
 ```
 
 Detailed platform and white-box instructions are in `RUNNING.md`.
-
-```text
-https://github.com/HerveyB3B4/softwaretestingassignment
-```
