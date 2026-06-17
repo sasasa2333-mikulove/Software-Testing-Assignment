@@ -1,6 +1,6 @@
 # Software Testing Assignment
 
-This repository contains a reproducible test suite and final Typst report for
+This repository contains a reproducible test suite for
 testing the stability and correctness of Python's `marshal` module.
 
 The project uses `uv` for environment and lock-file management.
